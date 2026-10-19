@@ -1887,45 +1887,44 @@ checkoutEl.addEventListener('change', () => {
   updatePrice();
 });
 
-// Form submit
-const STRIPE_LINK = 'https://buy.stripe.com/28E00j8Pt6CMa5d0Nd3VC00';
-
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
+// Form submit — dynamic Stripe Checkout via Netlify Function
+document.getElementById('bookingForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.getElementById('btnBook');
 
   const ci = checkinEl.value, co = checkoutEl.value;
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
   const guestsVal2 = parseInt(document.getElementById('guests')?.value || 2);
-  const childU17Val2 = parseInt(document.getElementById('children_u17')?.value || 0);
-  const childU3Val2 = parseInt(document.getElementById('children_u3')?.value || 0);
-  const petsEl2 = document.getElementById('pets');
-  const petsVal = petsEl2 ? petsEl2.options[petsEl2.selectedIndex].text : 'Sin mascotas';
-  const arrivalEl = document.getElementById('arrival');
-  const arrivalVal = arrivalEl && arrivalEl.value ? arrivalEl.value : '—';
-  const msg = document.getElementById('msg').value;
   const total = psTotal.textContent;
   const totalNum = parseInt(total) || 0;
 
   if (!totalNum) { alert('Por favor selecciona las fechas primero.'); return; }
-  if (hasOverlapWithBusy(ci, co)) { alert(T[currentLang].warn_occupied || 'Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.'); btn.disabled = false; btn.textContent = T[currentLang].book_btn || 'Reservar'; return; }
+  if (hasOverlapWithBusy(ci, co)) { alert(T[currentLang].warn_occupied || 'Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.'); btn.disabled = false; return; }
 
   btn.disabled = true;
   btn.textContent = T[currentLang].sending || 'Redirigiendo...';
 
-  // Build prefill params for Stripe
-  const params = new URLSearchParams();
-  if (email) params.set('prefilled_email', email);
-  if (name) params.set('prefilled_name', name);
-  if (phone) params.set('prefilled_phone', phone);
-  // Pass booking details via client_reference_id (metadata)
-  const ref = [ci, co, `${guestsVal2}ad`, childU17Val2 > 0 ? `${childU17Val2}ch` : '', arrivalVal].filter(Boolean).join('_');
-  params.set('client_reference_id', ref.replace(/\s/g,''));
+  // Calculate nights
+  const nights = Math.round((new Date(co) - new Date(ci)) / 86400000);
 
-  // Open Stripe in same tab
-  window.location.href = STRIPE_LINK + '?' + params.toString();
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nights, checkIn: ci, checkOut: co, guests: guestsVal2, total: totalNum })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Error al conectar con el sistema de pago. Inténtalo de nuevo.');
+      btn.disabled = false;
+      btn.textContent = T[currentLang].btn_send || 'Pagar con Stripe 🔒';
+    }
+  } catch (err) {
+    alert('Error al conectar con el sistema de pago. Inténtalo de nuevo.');
+    btn.disabled = false;
+    btn.textContent = T[currentLang].btn_send || 'Pagar con Stripe 🔒';
+  }
 });
 
 // === FLOAT BOOK BUTTON ===
