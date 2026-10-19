@@ -403,10 +403,9 @@ p { color: var(--fg2); margin: 0 0 16px; }
 .avail-section h2 { font-size:1.4rem; font-weight:700; margin-bottom:1.5rem; }
 .avail-calendar { padding-bottom:.5rem; }
 .avail-loading { color:var(--fg2); font-style:italic; }
-#calGrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+#calGrid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
 .cal-month { min-width:0; width:100%; }
-@media (max-width:700px) { #calGrid { grid-template-columns:repeat(2,1fr); } }
-@media (max-width:440px) { #calGrid { grid-template-columns:1fr; } }
+@media (max-width:500px) { #calGrid { grid-template-columns:1fr; } }
 .cal-month h4 { font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; color:var(--accent); }
 .cal-days { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; font-size:.72rem; }
 .cal-day-label { text-align:center; font-weight:700; color:var(--fg2); padding:2px 0; }
@@ -748,6 +747,10 @@ footer a:hover { color: #fff; }
     <div class="avail-legend">
       <span><span class="leg-avail">●</span> <span data-i18n="avail_free">Libre</span></span>
       <span><span class="leg-busy">●</span> <span data-i18n="avail_busy">Ocupado</span></span>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:1rem;justify-content:center;">
+      <button id="calPrev" onclick="calPage(-1)" style="background:var(--card);border:1px solid var(--border);color:var(--fg);border-radius:8px;padding:.5rem 1.2rem;font-size:.9rem;cursor:pointer;font-family:var(--font-body);">← Anterior</button>
+      <button id="calNext" onclick="calPage(1)" style="background:var(--accent);border:none;color:#fff;border-radius:8px;padding:.5rem 1.2rem;font-size:.9rem;cursor:pointer;font-weight:600;font-family:var(--font-body);">Siguiente →</button>
     </div>
   </div>
 </div>
@@ -1381,7 +1384,7 @@ const T = {
     am_kitchen:"Voll ausgestattete Küche", am_ac:"Klimaanlage", amg_bath:"Badezimmer", amg_bedroom:"Schlafzimmer und Wäscherei", amg_kitchen:"Küche", amg_living:"Wohnzimmer und Unterhaltung", amg_outdoor:"Außenbereich", amg_access:"Zugang und Services",
     am_shower:"Dusche", am_toiletries:"Duschgel, Shampoo und Seife", am_hairdryer:"Haartrockner", am_hotwater:"Warmwasser",
     am_linen:"Bettwäsche", am_towels:"Handtücher inklusive", am_blankets:"Zusätzliche Decken", am_wardrobe:"Kleiderschrank und Kleiderhaken",
-    am_kitchen:"Voll ausgestattete Küche", am_coffee:"Kaffee", am_dishes:"Geschirr und Besteck", am_fridge:"Kühlschrank", am_microwave:"Mikrowelle, Toaster und Sandwichmaker",
+    am_coffee:"Kaffee", am_dishes:"Geschirr und Besteck", am_fridge:"Kühlschrank", am_microwave:"Mikrowelle, Toaster und Sandwichmaker",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Schlafsofa", am_books:"Bücher und Brettspiele",
     am_terrace:"Tisch und Stühle im Außenbereich", am_bbq:"Grill auf der Terrasse", am_shade:"Schattenbereich", am_river:"Fluss in der Nähe",
     am_entry:"Selbst-Check-in (Schlüsselbox)", am_parking:"Kostenloser Parkplatz auf der Straße", am_ac:"Klimaanlage", am_pets_am:"Haustiere erlaubt (Aufpreis)",
@@ -1434,10 +1437,10 @@ const T = {
     lbl_accommodation:"L'alloggio", desc_title:"Una casetta con charme nel Delta dell'Ebro",
     desc_p1:"Casa rustica e luminosa a pochi metri dal fiume Ebro e dal lungofiume. Un angolo tranquillo nel cuore del Delta, ideale per staccare la spina e godere dell'ambiente naturale. Cortile con barbecue.",
     desc_p2:"Semplice, pulita e accogliente. Perfetta per coppie o famiglie che vogliono esplorare il Delta con calma. Ingresso indipendente e cortile privato — tutto lo spazio solo per voi.",
-    am_kitchen:"Cucina completa", am_ac:"Aria condizionata", amg_bath:"Bagno", amg_bedroom:"Camera da letto e lavanderia", amg_kitchen:"Cucina", amg_living:"Soggiorno e intrattenimento", amg_outdoor:"Esterno", amg_access:"Accesso e servizi",
+    am_kitchen:"Cucina completamente attrezzata", am_ac:"Aria condizionata", amg_bath:"Bagno", amg_bedroom:"Camera da letto e lavanderia", amg_kitchen:"Cucina", amg_living:"Soggiorno e intrattenimento", amg_outdoor:"Esterno", amg_access:"Accesso e servizi",
     am_shower:"Doccia", am_toiletries:"Gel doccia, shampoo e sapone", am_hairdryer:"Asciugacapelli", am_hotwater:"Acqua calda",
     am_linen:"Biancheria da letto", am_towels:"Asciugamani inclusi", am_blankets:"Coperte extra", am_wardrobe:"Armadio e appendiabiti",
-    am_kitchen:"Cucina completamente attrezzata", am_coffee:"Caffè", am_dishes:"Stoviglie e posate", am_fridge:"Frigorifero", am_microwave:"Microonde, tostapane e tostiera",
+    am_coffee:"Caffè", am_dishes:"Stoviglie e posate", am_fridge:"Frigorifero", am_microwave:"Microonde, tostapane e tostiera",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Divano letto", am_books:"Libri e giochi da tavolo",
     am_terrace:"Tavolo e sedie all'esterno", am_bbq:"Barbecue in patio", am_shade:"Zona ombreggiata", am_river:"Fiume vicino",
     am_entry:"Check-in autonomo (cassetta delle chiavi)", am_parking:"Parcheggio gratuito in strada", am_ac:"Aria condizionata", am_pets_am:"Animali ammessi (supplemento)",
@@ -1602,11 +1605,24 @@ function setLang(lang) {
     return busy;
   }
 
+  window._calPageOffset = 0;
+  window._calBusyDatesRef = new Set();
+
+  window.calPage = function(dir) {
+    const newOffset = window._calPageOffset + dir * 4;
+    if (newOffset < 0) return;
+    if (newOffset > 8) return; // max 3 pàgines: 0–3, 4–7, 8–11
+    window._calPageOffset = newOffset;
+    renderCalendar(window._calBusyDatesRef);
+  };
+
   function renderCalendar(busyDates) {
+    window._calBusyDatesRef = busyDates;
     const grid = document.getElementById('calGrid');
     if (!grid) return;
     grid.innerHTML = '';
     const today = new Date(); today.setHours(0,0,0,0);
+    const pageOffset = window._calPageOffset || 0;
     const monthNames = {
       es:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
       ca:['Gener','Febrer','Març','Abril','Maig','Juny','Juliol','Agost','Setembre','Octubre','Novembre','Desembre'],
@@ -1624,8 +1640,13 @@ function setLang(lang) {
     const mNames = monthNames[lang] || monthNames.es;
     const dLabels = dayLabels[lang] || dayLabels.es;
     
-    for (let mi = 0; mi < 6; mi++) {
-      const d = new Date(today.getFullYear(), today.getMonth() + mi, 1);
+    const prevBtn = document.getElementById('calPrev');
+    const nextBtn = document.getElementById('calNext');
+    if (prevBtn) prevBtn.disabled = pageOffset === 0;
+    if (nextBtn) nextBtn.disabled = pageOffset >= 8;
+
+    for (let mi = 0; mi < 4; mi++) {
+      const d = new Date(today.getFullYear(), today.getMonth() + pageOffset + mi, 1);
       const year = d.getFullYear(), month = d.getMonth();
       const div = document.createElement('div');
       div.className = 'cal-month';
