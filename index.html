@@ -437,6 +437,28 @@ p { color: var(--fg2); margin: 0 0 16px; }
 .float-book-btn:hover { transform: scale(1.04); }
 @media (max-width: 600px) { .float-book-btn { bottom: 16px; right: 16px; font-size:.85rem; padding:.65rem 1.1rem; } }
 
+/* FLOAT WHATSAPP BTN */
+.float-wa-btn {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  z-index: 999;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: .75rem 1.4rem;
+  font-size: .95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  display: none;
+  transition: transform .15s, opacity .3s;
+  text-decoration: none;
+}
+.float-wa-btn:hover { transform: scale(1.04); }
+@media (max-width: 600px) { .float-wa-btn { bottom: 76px; right: 16px; font-size:.85rem; padding:.65rem 1.1rem; } }
+
 /* FAQ */
 .faq-section { padding: 3rem 0; border-top: 1px solid var(--border); }
 .faq-list { display: flex; flex-direction: column; gap: .5rem; margin-top: 1rem; }
@@ -758,7 +780,127 @@ footer a:hover { color: #fff; }
     </div>
   </section>
 
-  <!-- RULES -->
+  <!-- BOOKING -->
+<div class="booking-section">
+  <div class="container">
+    <div class="booking-card">
+      <div class="section-label" data-i18n="lbl_booking">Reserva directa</div>
+      <h2 data-i18n="book_title">Solicita tu reserva</h2>
+      <p data-i18n="book_intro">Selecciona tus fechas y opciones para ver el precio. Reserva directa sin comisiones — el pago va directamente a nosotros.</p>
+
+      <form id="bookingForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="checkin" data-i18n="f_checkin">Entrada</label>
+            <input type="date" id="checkin" name="checkin" required>
+          </div>
+          <div class="form-group">
+            <label for="checkout" data-i18n="f_checkout">Salida</label>
+            <input type="date" id="checkout" name="checkout" required>
+          </div>
+        </div>
+        <div id="bookingOccupiedWarn" hidden style="background:#fee2e2;color:#b91c1c;border-radius:8px;padding:.75rem 1rem;font-size:.9rem;margin-bottom:.75rem;">
+          ⚠️ <span data-i18n="warn_occupied">Estas fechas ya están reservadas. Por favor elige otras fechas.</span>
+        </div>
+        <div id="bookingMinStayWarn" hidden style="background:#fef3c7;color:#92400e;border-radius:8px;padding:.75rem 1rem;font-size:.9rem;margin-bottom:.75rem;">
+          ⚠️ <span id="bookingMinStayMsg"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="guests" data-i18n="f_guests">Adultos</label>
+          <select id="guests" name="guests">
+            <option value="1">1 adulto</option>
+            <option value="2" selected>2 adultos (precio base)</option>
+            <option value="3">+ 3ª persona (+20€/noche)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="children_u17" data-i18n="f_children_u17">Niños (3–17 años)</label>
+          <select id="children_u17" name="children_u17">
+            <option value="0">0</option>
+            <option value="1">1 (+8€/noche)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="children_u3" data-i18n="f_children_u3">Bebés (menos de 3 años)</label>
+          <select id="children_u3" name="children_u3">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pets" data-i18n="f_pets">¿Venís con mascotas?</label>
+          <select id="pets" name="pets">
+            <option value="0" data-i18n-opt="Sin mascotas">Sin mascotas</option>
+            <option value="1" data-i18n-opt="1 perro (+13€)">1 perro (+13€)</option>
+            <option value="2" data-i18n-opt="2 perros (+17€)">2 perros (+17€)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="arrival" data-i18n="f_arrival">Hora de llegada estimada</label>
+          <select id="arrival" name="arrival">
+            <option value="">— Selecciona —</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:00">20:00</option>
+            <option value="21:00">21:00</option>
+            <option value="22:00">22:00</option>
+            <option value="23:00">23:00</option>
+            <option value="00:00">00:00</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name" data-i18n="f_name">Nombre completo</label>
+          <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email" data-i18n="f_email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="email@ejemplo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone" data-i18n="f_phone">Teléfono</label>
+          <input type="tel" id="phone" name="phone" placeholder="+34 600 000 000">
+        </div>
+
+        <div class="form-group">
+          <label for="msg" data-i18n="f_msg">Mensaje (opcional)</label>
+          <textarea id="msg" name="msg" placeholder="Alguna pregunta o información adicional..."></textarea>
+        </div>
+
+        <div class="price-summary" id="priceSummary">
+          <div class="ps-row"><span data-i18n="ps_night">Precio por noche</span><span id="psNightPrice">—</span></div>
+          <div class="ps-row"><span id="psNights" data-i18n="ps_nights">Noches</span><span id="psNightsTotal">—</span></div>
+          <div class="ps-row" id="psExtraAdultRow" style="display:none"><span data-i18n="ps_extra_adult">3er adulto</span><span id="psExtraAdult">—</span></div>
+          <div class="ps-row" id="psChildrenRow" style="display:none"><span data-i18n="ps_children">Niños</span><span id="psChildren">—</span></div>
+          <div class="ps-row" id="psPetsRow" style="display:none"><span data-i18n="ps_pets">Mascotas</span><span id="psPets">—</span></div>
+          <div class="ps-total"><span data-i18n="ps_total">Total</span><span id="psTotal">—</span></div>
+          <div class="ps-warn" id="psWarn"></div>
+        </div>
+
+        <button type="submit" class="btn-book" id="btnBook" data-i18n="btn_send">Pagar con Stripe 🔒</button>
+        <div class="stripe-note">🔒 <span data-i18n="stripe_note">El pago se realizará de forma segura vía</span> <strong>Stripe</strong></div>
+      </form>
+
+      <div class="success-msg" id="successMsg" data-i18n-html="success_msg">
+        ✅ <strong>¡Solicitud enviada!</strong><br>
+        Recibirás una respuesta en menos de 1 hora con la confirmación y el enlace de pago. ¡Gracias!
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- RULES -->
   <section class="container">
     <div class="section-label" data-i18n="lbl_rules">Normas de reserva</div>
     <h2 data-i18n="rules_title">Información importante</h2>
@@ -920,6 +1062,10 @@ document.addEventListener('keydown', function(e) {
   📅 <span data-i18n="float_book">Reserva ahora</span>
 </button>
 
+<a class="float-wa-btn" id="floatWaBtn" href="https://wa.me/34648716224" target="_blank" rel="noopener">
+  💬 WhatsApp
+</a>
+
 
 <!-- LOCATION -->
 <div class="location-section">
@@ -974,121 +1120,6 @@ document.addEventListener('keydown', function(e) {
   </div>
 </div>
 
-<!-- BOOKING -->
-<div class="booking-section">
-  <div class="container">
-    <div class="booking-card">
-      <div class="section-label" data-i18n="lbl_booking">Reserva directa</div>
-      <h2 data-i18n="book_title">Solicita tu reserva</h2>
-      <p data-i18n="book_intro">Selecciona tus fechas y opciones para ver el precio. Reserva directa sin comisiones — el pago va directamente a nosotros.</p>
-
-      <form id="bookingForm">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="checkin" data-i18n="f_checkin">Entrada</label>
-            <input type="date" id="checkin" name="checkin" required>
-          </div>
-          <div class="form-group">
-            <label for="checkout" data-i18n="f_checkout">Salida</label>
-            <input type="date" id="checkout" name="checkout" required>
-          </div>
-        </div>
-        <div id="bookingOccupiedWarn" hidden style="background:#fee2e2;color:#b91c1c;border-radius:8px;padding:.75rem 1rem;font-size:.9rem;margin-bottom:.75rem;">
-          ⚠️ <span data-i18n="warn_occupied">Estas fechas ya están reservadas. Por favor elige otras fechas.</span>
-        </div>
-
-        <div class="form-group">
-          <label for="guests" data-i18n="f_guests">Adultos</label>
-          <select id="guests" name="guests">
-            <option value="1">1 adulto</option>
-            <option value="2" selected>2 adultos (precio base)</option>
-            <option value="3">+ 3ª persona (+20€/noche)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="children_u17" data-i18n="f_children_u17">Niños (3–17 años)</label>
-          <select id="children_u17" name="children_u17">
-            <option value="0">0</option>
-            <option value="1">1 (+8€/noche)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="children_u3" data-i18n="f_children_u3">Bebés (menos de 3 años)</label>
-          <select id="children_u3" name="children_u3">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="pets" data-i18n="f_pets">¿Venís con mascotas?</label>
-          <select id="pets" name="pets">
-            <option value="0" data-i18n-opt="Sin mascotas">Sin mascotas</option>
-            <option value="1" data-i18n-opt="1 perro (+13€)">1 perro (+13€)</option>
-            <option value="2" data-i18n-opt="2 perros (+17€)">2 perros (+17€)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="arrival" data-i18n="f_arrival">Hora de llegada estimada</label>
-          <select id="arrival" name="arrival">
-            <option value="">— Selecciona —</option>
-            <option value="15:00">15:00</option>
-            <option value="16:00">16:00</option>
-            <option value="17:00">17:00</option>
-            <option value="18:00">18:00</option>
-            <option value="19:00">19:00</option>
-            <option value="20:00">20:00</option>
-            <option value="21:00">21:00</option>
-            <option value="22:00">22:00</option>
-            <option value="23:00">23:00</option>
-            <option value="00:00">00:00</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="name" data-i18n="f_name">Nombre completo</label>
-          <input type="text" id="name" name="name" placeholder="Tu nombre" required>
-        </div>
-
-        <div class="form-group">
-          <label for="email" data-i18n="f_email">Correo electrónico</label>
-          <input type="email" id="email" name="email" placeholder="email@ejemplo.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="phone" data-i18n="f_phone">Teléfono</label>
-          <input type="tel" id="phone" name="phone" placeholder="+34 600 000 000">
-        </div>
-
-        <div class="form-group">
-          <label for="msg" data-i18n="f_msg">Mensaje (opcional)</label>
-          <textarea id="msg" name="msg" placeholder="Alguna pregunta o información adicional..."></textarea>
-        </div>
-
-        <div class="price-summary" id="priceSummary">
-          <div class="ps-row"><span data-i18n="ps_night">Precio por noche</span><span id="psNightPrice">—</span></div>
-          <div class="ps-row"><span id="psNights" data-i18n="ps_nights">Noches</span><span id="psNightsTotal">—</span></div>
-          <div class="ps-row" id="psExtraAdultRow" style="display:none"><span data-i18n="ps_extra_adult">3er adulto</span><span id="psExtraAdult">—</span></div>
-          <div class="ps-row" id="psChildrenRow" style="display:none"><span data-i18n="ps_children">Niños</span><span id="psChildren">—</span></div>
-          <div class="ps-row" id="psPetsRow" style="display:none"><span data-i18n="ps_pets">Mascotas</span><span id="psPets">—</span></div>
-          <div class="ps-total"><span data-i18n="ps_total">Total</span><span id="psTotal">—</span></div>
-          <div class="ps-warn" id="psWarn"></div>
-        </div>
-
-        <button type="submit" class="btn-book" id="btnBook" data-i18n="btn_send">Pagar con Stripe 🔒</button>
-        <div class="stripe-note">🔒 <span data-i18n="stripe_note">El pago se realizará de forma segura vía</span> <strong>Stripe</strong></div>
-      </form>
-
-      <div class="success-msg" id="successMsg" data-i18n-html="success_msg">
-        ✅ <strong>¡Solicitud enviada!</strong><br>
-        Recibirás una respuesta en menos de 1 hora con la confirmación y el enlace de pago. ¡Gracias!
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- FOOTER -->
 <footer>
   <div>Casa Rústica y Luminosa · Deltebre, Delta del Ebro</div>
@@ -1131,7 +1162,7 @@ const T = {
     warn_occupied:"Estas fechas ya están reservadas. Por favor elige otras fechas.",
     btn_send:"Pagar con Stripe 🔒", stripe_note:"El pago se realizará de forma segura vía",
     success_msg:"✅ <strong>¡Solicitud enviada!</strong><br>Recibirás una respuesta en menos de 1 hora con la confirmación y el enlace de pago. ¡Gracias!",
-    warn_min:"⚠️ Para estas fechas el mínimo es {n} noches.",
+    warn_min:"⚠️ Para estas fechas ({period}) el mínimo es {n} noches.",
     guests_1:"1 persona", guests_2:"2 personas", guests_3:"3 personas",
     sending:"Enviando...", night:"noche", nights:"noches", f_children_u17:"Niños (3–17 años)", f_children_u3:"Bebés (menos de 3 años)", ps_extra_adult:"3er adulto (+20€/noche)", ps_children:"Niños (3–17 años)",
     f_pets:"¿Venís con mascotas?", ps_pets:"Mascotas", pets_0:"Sin mascotas", pets_1:"1 perro (+13€)", pets_2:"2 perros (+17€)", lbl_gallery:"Galería de fotos", gallery_title:"Conoce el alojamiento", gal_0:"Terraza exterior", gal_1:"Terraza y jardín", gal_2:"Habitación doble", gal_3:"Cocina comedor", gal_4:"Cocina tradicional", gal_5:"Baño completo", gal_6:"Baño detalle", gal_7:"Paseo fluvial al atardecer", gal_8:"Río Ebro desde el paseo",
@@ -1187,7 +1218,7 @@ const T = {
     warn_occupied:"Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.",
     btn_send:"Pagar amb Stripe 🔒", stripe_note:"El pagament es realitzarà de forma segura via",
     success_msg:"✅ <strong>Sol·licitud enviada!</strong><br>Rebràs una resposta en menys d'1 hora amb la confirmació i l'enllaç de pagament. Gràcies!",
-    warn_min:"⚠️ Per a aquestes dates el mínim és {n} nits.",
+    warn_min:"⚠️ Per a aquestes dates ({period}) el mínim és {n} nits.",
     guests_1:"1 persona", guests_2:"2 persones", guests_3:"3 persones",
     sending:"Enviant...", night:"nit", nights:"nits", f_children_u17:"Nens (3–17 anys)", f_children_u3:"Bebès (menys de 3 anys)", ps_extra_adult:"3r adult (+20€/nit)", ps_children:"Nens (3–17 anys)",
     f_pets:"Veniu amb mascotes?", ps_pets:"Mascotes", pets_0:"Sense mascotes", pets_1:"1 gos (+13€)", pets_2:"2 gossos (+17€)", lbl_gallery:"Galeria de fotos", gallery_title:"Coneix l'allotjament", gal_0:"Terrassa exterior", gal_1:"Terrassa i jardí", gal_2:"Habitació doble", gal_3:"Cuina menjador", gal_4:"Cuina tradicional", gal_5:"Bany complet", gal_6:"Bany detall", gal_7:"Passeig fluvial al capvespre", gal_8:"Riu Ebre des del passeig",
@@ -1242,7 +1273,7 @@ const T = {
     warn_occupied:"These dates are already booked. Please choose different dates.",
     btn_send:"Pay with Stripe 🔒", stripe_note:"Payment processed securely via",
     success_msg:"✅ <strong>Request sent!</strong><br>You'll receive a reply within 1 hour with confirmation and the payment link. Thank you!",
-    warn_min:"⚠️ For these dates the minimum is {n} nights.",
+    warn_min:"⚠️ For these dates ({period}) the minimum is {n} nights.",
     guests_1:"1 guest", guests_2:"2 guests", guests_3:"3 guests",
     sending:"Sending...", night:"night", nights:"nights", f_children_u17:"Children (3–17 yrs)", f_children_u3:"Babies (under 3)", ps_extra_adult:"3rd adult (+€20/night)", ps_children:"Children (3–17 yrs)",
     f_pets:"Are you bringing pets?", ps_pets:"Pets", pets_0:"No pets", pets_1:"1 dog (+€13)", pets_2:"2 dogs (+€17)", lbl_gallery:"Photo gallery", gallery_title:"Discover the property", gal_0:"Outdoor terrace", gal_1:"Garden terrace", gal_2:"Double bedroom", gal_3:"Kitchen & dining", gal_4:"Traditional kitchen", gal_5:"Full bathroom", gal_6:"Bathroom detail", gal_7:"Riverside promenade at sunset", gal_8:"River Ebro from the promenade",
@@ -1298,7 +1329,7 @@ const T = {
     warn_occupied:"Ces dates sont déjà réservées. Veuillez choisir d'autres dates.",
     btn_send:"Payer avec Stripe 🔒", stripe_note:"Paiement sécurisé via",
     success_msg:"✅ <strong>Demande envoyée !</strong><br>Vous recevrez une réponse dans l'heure avec la confirmation et le lien de paiement. Merci !",
-    warn_min:"⚠️ Pour ces dates le minimum est de {n} nuits.",
+    warn_min:"⚠️ Pour ces dates ({period}) le minimum est de {n} nuits.",
     guests_1:"1 personne", guests_2:"2 personnes", guests_3:"3 personnes",
     sending:"Envoi...", night:"nuit", nights:"nuits", f_children_u17:"Enfants (3–17 ans)", f_children_u3:"Bébés (moins de 3 ans)", ps_extra_adult:"3e adulte (+20€/nuit)", ps_children:"Enfants (3–17 ans)",
     f_pets:"Venez-vous avec des animaux ?", ps_pets:"Animaux", pets_0:"Sans animaux", lbl_gallery:"Galerie photos", gallery_title:"Découvrez le logement", gal_0:"Terrasse extérieure", gal_1:"Terrasse et jardin", gal_2:"Chambre double", gal_3:"Cuisine & salle à manger", gal_4:"Cuisine traditionnelle", gal_5:"Salle de bain", gal_6:"Salle de bain détail", gal_7:"Promenade au bord du fleuve au coucher du soleil", gal_8:"Fleuve Ebre depuis la promenade", pets_1:"1 chien (+13€)", pets_2:"2 chiens (+17€)",
@@ -1354,7 +1385,7 @@ const T = {
     warn_occupied:"Diese Daten sind bereits gebucht. Bitte wähle andere Daten.",
     btn_send:"Mit Stripe bezahlen 🔒", stripe_note:"Sichere Zahlung über",
     success_msg:"✅ <strong>Anfrage gesendet!</strong><br>Sie erhalten innerhalb einer Stunde eine Antwort mit Bestätigung und Zahlungslink. Danke!",
-    warn_min:"⚠️ Für diese Daten beträgt das Minimum {n} Nächte.",
+    warn_min:"⚠️ Für diese Daten ({period}) beträgt das Minimum {n} Nächte.",
     guests_1:"1 Person", guests_2:"2 Personen", guests_3:"3 Personen",
     sending:"Sende...", night:"Nacht", nights:"Nächte", f_children_u17:"Kinder (3–17 J.)", f_children_u3:"Babys (unter 3 J.)", ps_extra_adult:"3. Erwachsener (+20€/Nacht)", ps_children:"Kinder (3–17 J.)",
     f_pets:"Bringen Sie Haustiere mit?", ps_pets:"Haustiere", pets_0:"Keine Haustiere", lbl_gallery:"Fotogalerie", gallery_title:"Die Unterkunft entdecken", gal_0:"Außenterrasse", gal_1:"Gartenterrasse", gal_2:"Doppelzimmer", gal_3:"Küche & Esszimmer", gal_4:"Traditionelle Küche", gal_5:"Vollständiges Bad", gal_6:"Badezimmer Detail", gal_7:"Flusspromenade bei Sonnenuntergang", gal_8:"Fluss Ebro von der Promenade", pets_1:"1 Hund (+13€)", pets_2:"2 Hunde (+17€)",
@@ -1410,7 +1441,7 @@ const T = {
     warn_occupied:"Queste date sono già prenotate. Per favore scegli altre date.",
     btn_send:"Paga con Stripe 🔒", stripe_note:"Pagamento sicuro tramite",
     success_msg:"✅ <strong>Richiesta inviata!</strong><br>Riceverai una risposta entro 1 ora con la conferma e il link di pagamento. Grazie!",
-    warn_min:"⚠️ Per queste date il minimo è di {n} notti.",
+    warn_min:"⚠️ Per queste date ({period}) il minimo è di {n} notti.",
     guests_1:"1 persona", guests_2:"2 persone", guests_3:"3 persone",
     sending:"Invio...", night:"notte", nights:"notti", f_children_u17:"Bambini (3–17 anni)", f_children_u3:"Neonati (meno di 3 anni)", ps_extra_adult:"3° adulto (+20€/notte)", ps_children:"Bambini (3–17 anni)",
     f_pets:"Venite con animali?", ps_pets:"Animali", pets_0:"Senza animali", lbl_gallery:"Galleria foto", gallery_title:"Scopri l'alloggio", gal_0:"Terrazza esterna", gal_1:"Terrazza e giardino", gal_2:"Camera doppia", gal_3:"Cucina e sala pranzo", gal_4:"Cucina tradizionale", gal_5:"Bagno completo", gal_6:"Bagno dettaglio", gal_7:"Passeggiata fluviale al tramonto", gal_8:"Fiume Ebro dalla passeggiata", pets_1:"1 cane (+13€)", pets_2:"2 cani (+17€)",
@@ -1604,26 +1635,32 @@ function setLang(lang) {
 
   async function loadCalendars() {
     const allBusy = new Set();
-    let loaded = 0;
-    for (const url of ICAL_URLS) {
-      let fetched = false;
-      for (const proxy of CORS_PROXIES) {
-        if (fetched) break;
-        try {
-          const res = await fetch(proxy + encodeURIComponent(url), {signal: AbortSignal.timeout(8000)});
-          if (res.ok) {
-            const text = await res.text();
-            if (text.includes('BEGIN:VCALENDAR')) {
-              const busy = parseICS(text);
-              busy.forEach(d => allBusy.add(d));
-              loaded++;
-              fetched = true;
+    try {
+      const res = await fetch('/.netlify/functions/get-availability', {signal: AbortSignal.timeout(10000)});
+      if (res.ok) {
+        const data = await res.json();
+        if (data.occupied && Array.isArray(data.occupied)) {
+          data.occupied.forEach(d => allBusy.add(d));
+        }
+      }
+    } catch(e) {
+      // fallback: try direct proxy
+      for (const url of ICAL_URLS) {
+        for (const proxy of CORS_PROXIES) {
+          try {
+            const res = await fetch(proxy + encodeURIComponent(url), {signal: AbortSignal.timeout(8000)});
+            if (res.ok) {
+              const text = await res.text();
+              if (text.includes('BEGIN:VCALENDAR')) {
+                const busy = parseICS(text);
+                busy.forEach(d => allBusy.add(d));
+              }
             }
-          }
-        } catch(e) {}
+          } catch(e2) {}
+        }
       }
     }
-    if (loaded === 0) {
+    if (allBusy.size === 0) {
       const loadingEl = document.getElementById('availLoading');
       if (loadingEl) loadingEl.textContent = '';
     }
@@ -1640,17 +1677,13 @@ function setLang(lang) {
   const _origLoad = loadCalendars;
   window._reloadCalendar = async function() {
     const allBusy = new Set();
-    for (const url of ICAL_URLS) {
-      try {
-        const res = await fetch(CORS_PROXY + encodeURIComponent(url), {signal: AbortSignal.timeout(8000)});
-        if (res.ok) {
-          const text = await res.text();
-          if (text.includes('BEGIN:VCALENDAR')) {
-            parseICS(text).forEach(d => allBusy.add(d));
-          }
-        }
-      } catch(e) {}
-    }
+    try {
+      const res = await fetch('/.netlify/functions/get-availability', {signal: AbortSignal.timeout(10000)});
+      if (res.ok) {
+        const data = await res.json();
+        if (data.occupied) data.occupied.forEach(d => allBusy.add(d));
+      }
+    } catch(e) {}
     window._calBusyDates = allBusy;
     renderCalendar(allBusy);
   };
@@ -1861,6 +1894,32 @@ function hasOverlapWithBusy(ciStr, coStr) {
 
 const bookingWarn = document.getElementById('bookingOccupiedWarn');
 
+function checkMinStay() {
+  const ci = checkinEl.value, co = checkoutEl.value;
+  const warnEl = document.getElementById('bookingMinStayWarn');
+  const msgEl = document.getElementById('bookingMinStayMsg');
+  if (!warnEl || !ci || !co) return;
+  const nights = Math.round((new Date(co) - new Date(ci)) / 86400000);
+  const ciDate = new Date(ci);
+  const ciMonth = ciDate.getMonth() + 1;
+  const ciDay = ciDate.getDay();
+  const coDay = new Date(co).getDay();
+  function inXmasWindow(dateStr) {
+    const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
+    return (m === 12 && day >= 19) || (m === 1 && day <= 5);
+  }
+  let minReq = 1, minLabel = '';
+  if (inXmasWindow(ci) || inXmasWindow(co)) { minReq = 3; minLabel = 'Navidades (19 dic–5 ene)'; }
+  else if (ciMonth === 7 || ciMonth === 8) { minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto'; }
+  else if (ciMonth === 6) { minReq = 2; minLabel = 'junio'; }
+  else if (ciDay === 5 || ciDay === 6 || coDay === 6 || coDay === 0) { minReq = 2; minLabel = 'viernes/sábado'; }
+  if (nights > 0 && nights < minReq) {
+    if (msgEl) msgEl.textContent = (T[currentLang]?.warn_min || '⚠️ Mínimo {n} noches para estas fechas ({period}).').replace('{n}', minReq).replace('{period}', minLabel);
+    warnEl.hidden = false;
+  } else {
+    warnEl.hidden = true;
+  }
+}
 checkinEl.addEventListener('change', () => {
   if (!checkinEl.value) return;
   if (checkinEl.value < todayStr) checkinEl.value = todayStr;
@@ -1873,6 +1932,7 @@ checkinEl.addEventListener('change', () => {
   if (bookingWarn) {
     bookingWarn.hidden = !hasOverlapWithBusy(checkinEl.value, checkoutEl.value);
   }
+  checkMinStay();
   updatePrice();
 });
 checkoutEl.addEventListener('change', () => {
@@ -1884,6 +1944,7 @@ checkoutEl.addEventListener('change', () => {
   if (bookingWarn) {
     bookingWarn.hidden = !hasOverlapWithBusy(checkinEl.value, checkoutEl.value);
   }
+  checkMinStay();
   updatePrice();
 });
 
@@ -1900,11 +1961,42 @@ document.getElementById('bookingForm').addEventListener('submit', async function
   if (!totalNum) { alert('Por favor selecciona las fechas primero.'); return; }
   if (hasOverlapWithBusy(ci, co)) { alert(T[currentLang].warn_occupied || 'Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.'); btn.disabled = false; return; }
 
+  // Minimum stay validation
+  const nights = Math.round((new Date(co) - new Date(ci)) / 86400000);
+  const ciDate = new Date(ci);
+  const ciMonth = ciDate.getMonth() + 1; // 1-12
+  const ciDay = ciDate.getDay(); // 0=Sun,1=Mon,...5=Fri,6=Sat
+  const coDate = new Date(co);
+  const coDay = coDate.getDay();
+  // Dec 19 – Jan 5 check: any night in that window?
+  function inXmasWindow(dateStr) {
+    const d = new Date(dateStr);
+    const m = d.getMonth() + 1, day = d.getDate();
+    return (m === 12 && day >= 19) || (m === 1 && day <= 5);
+  }
+  let minReq = 1;
+  let minLabel = '';
+  if (inXmasWindow(ci) || inXmasWindow(co)) {
+    minReq = 3; minLabel = 'Navidades (19 dic–5 ene)';
+  } else if (ciMonth === 7 || ciMonth === 8) {
+    minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto';
+  } else if (ciMonth === 6) {
+    minReq = 2; minLabel = 'junio';
+  } else if (ciDay === 5 || ciDay === 6 || coDay === 6 || coDay === 0) {
+    // Check-in Friday or Saturday, or checkout Saturday or Sunday
+    minReq = 2; minLabel = 'viernes/sábado';
+  }
+  if (nights < minReq) {
+    const msg = (T[currentLang].warn_min || '⚠️ Para estas fechas el mínimo es {n} noches ({period}).').replace('{n}', minReq).replace('{period}', minLabel);
+    alert(msg);
+    btn.disabled = false;
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = T[currentLang].sending || 'Redirigiendo...';
 
-  // Calculate nights
-  const nights = Math.round((new Date(co) - new Date(ci)) / 86400000);
+  // Calculate nights (already calculated above in min stay check)
 
   try {
     const res = await fetch('/.netlify/functions/create-checkout', {
@@ -1927,25 +2019,22 @@ document.getElementById('bookingForm').addEventListener('submit', async function
   }
 });
 
-// === FLOAT BOOK BUTTON ===
+// === FLOAT BOOK BUTTON + WHATSAPP ===
 (function() {
   const btn = document.getElementById('floatBookBtn');
+  const waBtn = document.getElementById('floatWaBtn');
   const bookSection = document.querySelector('.booking-section');
   if (!btn || !bookSection) return;
   function updateFloatBtn() {
     const bookRect = bookSection.getBoundingClientRect();
-    // Show button when booking form is not visible
+    // Show buttons when booking form is not visible
     const isBookVisible = bookRect.top < window.innerHeight && bookRect.bottom > 0;
-    btn.style.display = isBookVisible ? 'none' : 'flex';
+    const show = !isBookVisible ? 'flex' : 'none';
+    btn.style.display = show;
+    if (waBtn) waBtn.style.display = show;
   }
   window.addEventListener('scroll', updateFloatBtn, {passive: true});
   updateFloatBtn();
-  // Show initially after scrolling 300px down
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > 300) {
-      btn.style.display = btn.style.display === 'flex' ? 'flex' : '';
-    }
-  }, {passive: true, once: false});
 })();
 
 // === FAQ ACCORDION ===
