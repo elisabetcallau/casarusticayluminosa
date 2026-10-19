@@ -1164,10 +1164,10 @@ const T = {
     am_kitchen:"Cocina equipada", am_coffee:"Cafetera de goteo", am_dishes:"Vajilla y cubiertos", am_fridge:"Nevera", am_microwave:"Microondas, tostadora y sandwichera",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Sofá cama", am_books:"Libros y juegos de mesa",
     am_terrace:"Mesa y sillas en el exterior", am_bbq:"Barbacoa en el patio", am_shade:"Zona de sombra", am_river:"Río cerca",
-    am_entry:"Entrada autónoma (caja de llaves)", am_parking:"Aparcamiento gratuito en la calle", am_ac:"Aire acondicionado", am_pets_am:"Se admiten mascotas (con suplemento)",
+    am_entry:"Entrada autónoma (caja de llaves)", am_parking:"Aparcamiento gratuito en la calle", am_ac:"Aire acondicionado", am_pets_am:"Se admiten mascotas (con suplemento)", am_pets:"Se admiten mascotas (con suplemento)",
     lbl_amenities:"Comodidades", amenities_title:"¿Qué encontrarás en casa?",
     lbl_rules:"Normas de reserva", rules_title:"Información importante",
-    rule_min:"<strong>Estancias mínimas:</strong> 1 noche en general · 2 noches viernes y sábados · 2 noches en puentes (Purísima, etc.) · 3 noches julio y agosto · 3 noches en Navidad",
+    rule_min:"<strong>Estancias mínimas:</strong> 1 noche en general · 2 noches viernes y sábados · 2 noches en puentes · 3 noches julio y agosto · 3 noches Semana Santa · 3 noches en Navidad",
     rule_checkin:"<strong>Check-in:</strong> 15h · <strong>Check-out:</strong> 11h. Si queréis entrar antes o salir más tarde, consultadnos disponibilidad — en caso de ser posible, se abonará una tasa extra.",
     rule_keybox:"<strong>Entrada autónoma</strong> mediante caja de seguridad para las llaves. La normativa exige identificación de todos los huéspedes — al confirmar la reserva nos pondremos en contacto para solicitarla, y una vez recibida se enviará el código secreto.", rule_parking:"Aparcamiento gratuito en la calle delante de la casa", rule_wifi:"WiFi gratuito",
     rule_smoke:"No se permite fumar en el interior · Se puede fumar libremente en el exterior (hay cenicero)", rule_pets:"Mascotas permitidas con suplemento de limpieza adicional", rule_cancel:"Cancelación gratuita hasta 7 días antes de la llegada. En casos de fuerza mayor, contáctanos y lo valoramos juntos.",
@@ -1177,6 +1177,7 @@ const T = {
     lbl_availability:"Disponibilidad", avail_title:"Comprueba fechas disponibles", avail_free:"Libre", avail_busy:"Ocupado", lbl_booking:"Reserva directa", book_title:"Solicita tu reserva",
     book_intro:"Selecciona tus fechas y opciones para ver el precio. Reserva directa sin comisiones — el pago va directamente a nosotros.",
     f_checkin:"Entrada", f_checkout:"Salida", f_guests:"Adultos", f_name:"Nombre completo",
+    f_arrival:"Hora de llegada estimada", arr_sel:"— Selecciona —",
     f_email:"Correo electrónico", f_phone:"Teléfono", f_msg:"Mensaje (opcional)",
     ps_night:"Precio por noche", ps_nights:"Noches", ps_total:"Total",
     direct_r1:"Mejor precio que en las plataformas — el pago va directamente al propietario, sin intermediarios.",
@@ -1196,7 +1197,7 @@ const T = {
     faq_q4:"¿A qué distancia está la playa?", faq_a4:"Las playas del Delta del Ebro se encuentran a unos 15 minutos en coche. El río y el paseo fluvial están a pocos metros de la casa.",
     faq_q5:"¿Se puede hacer el check-in de forma autónoma?", faq_a5:"Sí, la casa dispone de una caja de llaves para el check-in autónomo. Recibirás las instrucciones por correo electrónico antes de tu llegada.",
     faq_q6:"¿Hay WiFi?", faq_a6:"Sí, la casa dispone de WiFi gratuito incluido en el precio.",
-    faq_q7:"¿Cuáles son las estancias mínimas?", faq_a7:"1 noche en general · 2 noches en viernes y sábados · 2 noches en puentes · 3 noches en julio y agosto · 3 noches en Navidad.",
+    faq_q7:"¿Cuáles son las estancias mínimas?", faq_a7:"1 noche en general · 2 noches en viernes y sábados · 2 noches en puentes · 3 noches en julio y agosto · 3 noches Semana Santa · 3 noches en Navidad.",
     faq_q8:"¿Hay normas de la casa que deba conocer?", faq_a8:"No se permite fumar en el interior. Cancelación gratuita hasta 7 días antes de la llegada. En casos de fuerza mayor, contáctanos. Licencia turística: LLTE-000967.",
     lbl_location:"Dónde estamos", location_title:"Deltebre, Delta del Ebro", location_desc:"A orillas del río Ebro, en pleno Delta. A pocos metros del paseo fluvial y a unos 15 minutos de las mejores playas.", map_open_cta:"Ver en Google Maps →",
     lbl_activities:"Descubre el Delta", activities_title:"Actividades cerca", act7_title:"Recorrido en barco", act7_desc:"Navega por el río Ebro hasta su desembocadura en el mar. Un recorrido único entre arrozales, lagunas y fauna del Delta. Salen desde Deltebre, a pocos minutos de la casa.", act9_title:"Pesca local", act9_desc:"Pesca tradicional en el río Ebro, la laguna de l'Encanyissada y el canal de la Marquesa. Especie estrella: la anguila del Delta y el mújol, muy apreciados en la cocina local.",
@@ -1220,19 +1221,20 @@ const T = {
     am_kitchen:"Cuina equipada", am_coffee:"Cafetera de degoteig", am_dishes:"Vaixella i coberts", am_fridge:"Nevera", am_microwave:"Microones, torradora i sandwichera",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Sofà llit", am_books:"Llibres i jocs de taula",
     am_terrace:"Taula i cadires a l'exterior", am_bbq:"Barbacoa al pati", am_shade:"Zona ombrejada", am_river:"Riu a prop",
-    am_entry:"Entrada autònoma (caixa de claus)", am_parking:"Aparcament gratuït al carrer", am_ac:"Aire condicionat", am_pets_am:"S'admeten mascotes (amb suplement)",
+    am_entry:"Entrada autònoma (caixa de claus)", am_parking:"Aparcament gratuït al carrer", am_ac:"Aire condicionat", am_pets_am:"S'admeten mascotes (amb suplement)", am_pets:"S'admeten mascotes (amb suplement)",
     lbl_amenities:"Comoditats", amenities_title:"Què trobaràs a casa?",
     lbl_rules:"Normes de reserva", rules_title:"Informació important",
-    rule_min:"<strong>Estades mínimes:</strong> 1 nit en general · 2 nits en divendres i dissabtes · 2 nits en ponts (Puríssima, etc.) · 3 nits en juliol i agost · 3 nits en Nadal",
+    rule_min:"<strong>Estades mínimes:</strong> 1 nit en general · 2 nits en divendres i dissabtes · 2 nits en ponts · 3 nits en juliol i agost · 3 nits Setmana Santa · 3 nits en Nadal",
     rule_checkin:"<strong>Check-in:</strong> 15h · <strong>Check-out:</strong> 11h. Si voleu entrar abans o sortir més tard, consulteu-nos disponibilitat — en cas de ser possible, s'abonarà una taxa extra.",
     rule_keybox:"<strong>Entrada autònoma</strong> mitjançant caixa de seguretat per a les claus. La normativa exigeix identificació de tots els hostes — en confirmar la reserva ens posarem en contacte per sol·licitar-la, i un cop rebuda s'enviarà el codi secret.", rule_parking:"Aparcament gratuït al carrer davant de la casa", rule_wifi:"WiFi gratuït",
     rule_smoke:"No es permet fumar a l'interior · Es pot fumar lliurement a l'exterior (hi ha cendrer)", rule_pets:"Mascotes permeses amb suplement de neteja addicional", rule_cancel:"Cancel·lació gratuïta fins a 7 dies abans de l'arribada. En casos de força major, contacta'ns i ho valorem junts.",
     lbl_reviews:"Valoracions", reviews_title:"Els nostres hostes diuen", reviews_count:"44 valoracions",
     rev_clean:"Neteja", rev_acc:"Veracitat", rev_check:"Check-in", rev_comm:"Comunicació", rev_loc:"Ubicació", rev_val:"Qualitat-preu",
     reviews_link_text:"Vols llegir les opinions completes?", reviews_link:"Veure a Airbnb →",
-    lbl_booking:"Reserva directa", book_title:"Sol·licita la teva reserva",
+    lbl_availability:"Disponibilitat", avail_title:"Comprova dates disponibles", avail_free:"Lliure", avail_busy:"Ocupat", lbl_booking:"Reserva directa", book_title:"Sol·licita la teva reserva",
     book_intro:"Selecciona les teves dates i opcions per veure el preu. Reserva directa sense comissions — el pagament va directament a nosaltres.",
     f_checkin:"Entrada", f_checkout:"Sortida", f_guests:"Adults", f_name:"Nom complet",
+    f_arrival:"Hora d'arribada estimada", arr_sel:"— Selecciona —",
     f_email:"Correu electrònic", f_phone:"Telèfon", f_msg:"Missatge (opcional)",
     ps_night:"Preu per nit", ps_nights:"Nits", ps_total:"Total",
     direct_r1:"Millor preu que a les plataformes — el pagament va directament al propietari, sense intermediaris.",
@@ -1252,7 +1254,7 @@ const T = {
     faq_q4:"Quant de lluny és la platja?", faq_a4:"Les platges del Delta de l'Ebre es troben a uns 15 minuts en cotxe. El riu i el passeig fluvial estan a pocs metres de la casa.",
     faq_q5:"Es pot fer el check-in autònom?", faq_a5:"Sí, la casa disposa d'una caixa de claus per al check-in autònom. Rebràs les instruccions per correu electrònic abans de la teva arribada.",
     faq_q6:"Hi ha WiFi?", faq_a6:"Sí, la casa disposa de WiFi gratuït inclòs en el preu.",
-    faq_q7:"Quines són les estades mínimes?", faq_a7:"1 nit en general · 2 nits en divendres i dissabtes · 2 nits en ponts · 3 nits en juliol i agost · 3 nits en Nadal.",
+    faq_q7:"Quines són les estades mínimes?", faq_a7:"1 nit en general · 2 nits en divendres i dissabtes · 2 nits en ponts · 3 nits en juliol i agost · 3 nits Setmana Santa · 3 nits en Nadal.",
     faq_q8:"Hi ha normes de la casa que hagi de saber?", faq_a8:"No es permet fumar a l'interior. Cancel·lació gratuïta fins a 7 dies abans de l'arribada. Llicència turística: LLTE-000967.",
     lbl_location:"On som", location_title:"Deltebre, Delta de l'Ebre", location_desc:"A la vora del riu Ebre, en ple Delta. A pocs metres del passeig fluvial i a uns 15 minuts de les millors platges.", map_open_cta:"Veure a Google Maps →",
     lbl_activities:"Descobreix el Delta", activities_title:"Activitats a prop", act7_title:"Recorregut en vaixell", act7_desc:"Navega pel riu Ebre fins a la seva desembocadura al mar. Un recorregut únic entre arrossars, llacunes i fauna del Delta. Surten des de Deltebre, a pocs minuts de la casa.", act9_title:"Pesca local", act9_desc:"Pesca tradicional al riu Ebre, la llacuna de l'Encanyissada i el canal de la Marquesa. Espècie estrella: l'anguila del Delta i el llís, molt apreciats a la cuina local.",
@@ -1261,7 +1263,8 @@ const T = {
     act3_title:"Rutes en bicicleta", act3_desc:"Camins plans i paisatge únic. La Via Verda del Baix Ebre passa a prop — perfecte per descobrir el Delta a poc a poc en bici.",
     act4_title:"Arròs del Delta", act4_desc:"Tasta l'arròs més bo del món, conreat aquí mateix. Els restaurants locals ofereixen arrossos i marisc fresquíssim.<br><strong>Els nostres favorits per arrossos i paelles:</strong><ul class=\"act-rest-list\"><li>🍽 Orígens — Deltebre · 1,9 km</li><li>🍽 Racó del Riu — Sant Jaume d'Enveja · 2,4 km</li><li>🍽 Lo MUT restaurant — Deltebre · 6,7 km</li><li>🍽 Mas de Nuri — Riumar · 8,6 km (obert a l'estiu)</li><li>🍽 Hotel Mediterrani Blau — Eucaliptus · 13 km (obert abr–set)</li><li>🍽 La Mar del Delta — camping Eucaliptus · 13 km (obert abr–set)</li><li>🍽 Lo Pati d'Agustí — Poblenou · 14 km (obert a l'estiu)</li></ul>",
     act5_title:"Platges", act5_desc:"Les més properes: Riumar (14 min), Eucaliptus (20 min), Marquesa (17 min) i Serrallo (22 min). Aigües tranquil·les i sorra fina.",
-    act6_title:"Posta de sol al Delta", act6_desc:"Un dels espectacles més màgics del Delta. Els millors punts: el passeig fluvial de Deltebre (a pocs metres), el mirador de Riet Vell i la Punta de la Banya."
+    act6_title:"Posta de sol al Delta", act6_desc:"Un dels espectacles més màgics del Delta. Els millors punts: el passeig fluvial de Deltebre (a pocs metres), el mirador de Riet Vell i la Punta de la Banya.",
+    footer_contact:"Contacte", footer_whatsapp:"Escriu-nos per WhatsApp", footer_license:"Llicència turística"
   },
   en: {
     superhost:"Superhost", guests_max:"2 guests (+ 1 with supplement)", bedroom:"bedroom", bathroom:"bathroom",
@@ -1275,10 +1278,10 @@ const T = {
     am_kitchen:"Fully equipped kitchen", am_coffee:"Coffee", am_dishes:"Dishes & cutlery", am_fridge:"Refrigerator", am_microwave:"Microwave, toaster & sandwich maker",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Sofa bed", am_books:"Books & board games",
     am_terrace:"Outdoor table and chairs", am_bbq:"BBQ in patio", am_shade:"Shaded area", am_river:"River nearby",
-    am_entry:"Self check-in (key box)", am_parking:"Free street parking", am_ac:"Air conditioning", am_pets_am:"Pets allowed (extra fee)",
+    am_entry:"Self check-in (key box)", am_parking:"Free street parking", am_ac:"Air conditioning", am_pets_am:"Pets allowed (extra fee)", am_pets:"Pets allowed (extra fee)",
     lbl_amenities:"Amenities", amenities_title:"What you'll find at home",
     lbl_rules:"Booking rules", rules_title:"Important information",
-    rule_min:"<strong>Minimum stays:</strong> 1 night in general · 2 nights on Fri & Sat · 2 nights on public holiday bridges · 3 nights in July & August · 3 nights at Christmas",
+    rule_min:"<strong>Minimum stays:</strong> 1 night in general · 2 nights on Fri & Sat · 2 nights on public holiday bridges · 3 nights in July & August · 3 nights Easter week · 3 nights at Christmas",
     rule_checkin:"<strong>Check-in:</strong> 3pm · <strong>Check-out:</strong> 11am. For early check-in or late check-out, please ask in advance — if available, an extra fee applies.",
     rule_keybox:"<strong>Self check-in</strong> via key lockbox. Local regulations require ID from all guests — once your booking is confirmed we will contact you to request it, and the secret code will be sent once received.", rule_parking:"Free street parking right in front of the house", rule_wifi:"Free WiFi",
     rule_smoke:"No smoking indoors · Smoking freely permitted outside (ashtray provided)", rule_pets:"Pets allowed with an additional cleaning supplement", rule_cancel:"Free cancellation up to 7 days before arrival. In cases of force majeure, contact us and we will work it out together.",
@@ -1288,6 +1291,7 @@ const T = {
     lbl_availability:"Availability", avail_title:"Check available dates", avail_free:"Available", avail_busy:"Booked", lbl_booking:"Direct booking", book_title:"Request your stay",
     book_intro:"Select your dates and options to see the price. Book directly with no platform fees — payment goes straight to us.",
     f_checkin:"Check-in", f_checkout:"Check-out", f_guests:"Adults", f_name:"Full name",
+    f_arrival:"Estimated arrival time", arr_sel:"— Select —",
     f_email:"Email address", f_phone:"Phone", f_msg:"Message (optional)",
     ps_night:"Price per night", ps_nights:"Nights", ps_total:"Total",
     direct_r1:"Better price than on the platforms — payment goes directly to the owner, no middlemen.",
@@ -1307,7 +1311,7 @@ const T = {
     faq_q4:"How far is the beach?", faq_a4:"The Ebro Delta beaches are about 15 minutes by car. The river and riverside promenade are just metres from the house.",
     faq_q5:"Is self check-in available?", faq_a5:"Yes, the house has a key lockbox for self check-in. You'll receive instructions by email before your arrival.",
     faq_q6:"Is there WiFi?", faq_a6:"Yes, free WiFi is included in the price.",
-    faq_q7:"What are the minimum stays?", faq_a7:"1 night in general · 2 nights on Fri & Sat · 2 nights on public holiday bridges · 3 nights in July & August · 3 nights at Christmas.",
+    faq_q7:"What are the minimum stays?", faq_a7:"1 night in general · 2 nights on Fri & Sat · 2 nights on public holiday bridges · 3 nights in July & August · 3 nights Easter week · 3 nights at Christmas.",
     faq_q8:"Are there house rules I should know?", faq_a8:"No smoking indoors. Free cancellation up to 7 days before arrival. Tourist licence: LLTE-000967.",
     lbl_location:"Where we are", location_title:"Deltebre, Ebro Delta", location_desc:"On the banks of the Ebro river, in the heart of the Delta. Just metres from the riverside promenade and about 15 minutes from the best beaches.", map_open_cta:"View on Google Maps →",
     lbl_activities:"Discover the Delta", activities_title:"Activities nearby", act7_title:"Boat trip", act7_desc:"Sail down the Ebro river to where it meets the sea. A unique journey through rice fields, lagoons and Delta wildlife. Boats depart from Deltebre, just minutes from the house.", act9_title:"Local fishing", act9_desc:"Traditional fishing on the Ebro river, the Encanyissada lagoon and the Marquesa canal. The star catches: Delta eel and grey mullet, both prized in local cuisine.",
@@ -1331,10 +1335,10 @@ const T = {
     am_kitchen:"Cuisine entièrement équipée", am_coffee:"Cafetière filtre", am_dishes:"Vaisselle et couverts", am_fridge:"Réfrigérateur", am_microwave:"Micro-ondes, grille-pain et croque-monsieur",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Canapé-lit", am_books:"Livres et jeux de société",
     am_terrace:"Table et chaises en terrasse", am_bbq:"Barbecue en terrasse", am_shade:"Zone ombragée", am_river:"Rivière proche",
-    am_entry:"Entrée autonome (boîte à clés)", am_parking:"Parking gratuit dans la rue", am_ac:"Climatisation", am_pets_am:"Animaux acceptés (supplément)",
+    am_entry:"Entrée autonome (boîte à clés)", am_parking:"Parking gratuit dans la rue", am_ac:"Climatisation", am_pets_am:"Animaux acceptés (supplément)", am_pets:"Animaux acceptés (supplément)",
     lbl_amenities:"Équipements", amenities_title:"Ce que vous trouverez",
     lbl_rules:"Conditions de réservation", rules_title:"Informations importantes",
-    rule_min:"<strong>Séjours minimums :</strong> 1 nuit en général · 2 nuits ven. et sam. · 2 nuits ponts fériés · 3 nuits juillet et août · 3 nuits Noël",
+    rule_min:"<strong>Séjours minimums :</strong> 1 nuit en général · 2 nuits ven. et sam. · 2 nuits ponts fériés · 3 nuits juillet et août · 3 nuits Semaine Sainte · 3 nuits Noël",
     rule_checkin:"<strong>Arrivée :</strong> 15h · <strong>Départ :</strong> 11h. Pour une arrivée anticipée ou un départ tardif, consultez-nous — si c'est possible, des frais supplémentaires s'appliqueront.",
     rule_keybox:"<strong>Entrée autonome</strong> via boîte à clés sécurisée. La réglementation exige une pièce d'identité pour tous les voyageurs — à la confirmation de la réservation nous vous contacterons pour la demander, et le code secret sera envoyé dès réception.", rule_parking:"Parking gratuit dans la rue devant la maison", rule_wifi:"WiFi gratuit",
     rule_smoke:"Interdit de fumer à l'intérieur · Fumer librement autorisé à l'extérieur (cendrier disponible)", rule_pets:"Animaux acceptés avec supplément de ménage", rule_cancel:"Annulation gratuite jusqu'à 7 jours avant l'arrivée. En cas de force majeure, contactez-nous et nous trouverons une solution.",
@@ -1344,6 +1348,7 @@ const T = {
     lbl_availability:"Disponibilité", avail_title:"Vérifier les dates disponibles", avail_free:"Disponible", avail_busy:"Occupé", lbl_booking:"Réservation directe", book_title:"Demandez votre séjour",
     book_intro:"Sélectionnez vos dates et options pour voir le prix. Réservation directe sans commission — le paiement nous revient directement.",
     f_checkin:"Arrivée", f_checkout:"Départ", f_guests:"Adultes", f_name:"Nom complet",
+    f_arrival:"Heure d'arrivée estimée", arr_sel:"— Sélectionner —",
     f_email:"Adresse e-mail", f_phone:"Téléphone", f_msg:"Message (optionnel)",
     ps_night:"Prix par nuit", ps_nights:"Nuits", ps_total:"Total",
     direct_r1:"Meilleur prix que sur les plateformes — le paiement va directement au propriétaire, sans intermédiaires.",
@@ -1363,7 +1368,7 @@ const T = {
     faq_q4:"À quelle distance se trouve la plage ?", faq_a4:"Les plages du Delta de l'Èbre se trouvent à environ 15 minutes en voiture. La rivière et la promenade fluviale sont à quelques mètres de la maison.",
     faq_q5:"Le check-in autonome est-il possible ?", faq_a5:"Oui, la maison dispose d'une boîte à clés pour le check-in autonome. Vous recevrez les instructions par e-mail avant votre arrivée.",
     faq_q6:"Y a-t-il le WiFi ?", faq_a6:"Oui, le WiFi gratuit est inclus dans le prix.",
-    faq_q7:"Quels sont les séjours minimums ?", faq_a7:"1 nuit en général · 2 nuits ven. et sam. · 2 nuits ponts fériés · 3 nuits juillet et août · 3 nuits Noël.",
+    faq_q7:"Quels sont les séjours minimums ?", faq_a7:"1 nuit en général · 2 nuits ven. et sam. · 2 nuits ponts fériés · 3 nuits juillet et août · 3 nuits Semaine Sainte · 3 nuits Noël.",
     faq_q8:"Y a-t-il des règles de la maison à connaître ?", faq_a8:"Il est interdit de fumer à l'intérieur. Annulation gratuite jusqu'à 7 jours avant l'arrivée. Licence touristique : LLTE-000967.",
     lbl_location:"Où nous sommes", location_title:"Deltebre, Delta de l'Èbre", location_desc:"Au bord du fleuve Èbre, en plein Delta. À quelques mètres de la promenade fluviale et à environ 15 minutes des meilleures plages.", map_open_cta:"Voir sur Google Maps →",
     lbl_activities:"Découvrez le Delta", activities_title:"Activités à proximité", act7_title:"Excursion en bateau", act7_desc:"Naviguez sur le fleuve Ebre jusqu'à son embouchure en mer. Un parcours unique entre rizières, lagunes et faune du Delta. Départs depuis Deltebre, à quelques minutes de la maison.", act9_title:"Pêche locale", act9_desc:"Pêche traditionnelle sur le fleuve Ebre, la lagune de l'Encanyissada et le canal de la Marquesa. Les espèces phares : l'anguille du Delta et le mulet, très appréciés dans la cuisine locale.",
@@ -1376,7 +1381,7 @@ const T = {
     act6_title:"Coucher de soleil sur le Delta", act6_desc:"L'un des moments les plus magiques du Delta. Les meilleurs endroits : la promenade fluviale de Deltebre (à deux pas), le mirador de Riet Vell et la Punta de la Banya."
   },
   de: {
-    guests_max:"2 Gäste (+ 1 mit Aufpreis)", bedroom:"Schlafzimmer", bathroom:"Bad",
+    superhost:"Superhost", guests_max:"2 Gäste (+ 1 mit Aufpreis)", bedroom:"Schlafzimmer", bathroom:"Bad",
     qf_beds:"Betten", qf_bath:"Bad", qf_guests:"Erwachsene", qf_river:"Fluss", qf_nearby:"In der Nähe",
     lbl_accommodation:"Die Unterkunft", desc_title:"Ein charmantes Landhaus im Ebro-Delta",
     desc_p1:"Rustikales und helles Haus nur wenige Meter vom Ebro und seinem Uferweg entfernt. Eine ruhige Ecke mitten im Delta, ideal zum Abschalten und Genießen der Natur. Innenhof mit Grill.",
@@ -1387,10 +1392,10 @@ const T = {
     am_coffee:"Kaffee", am_dishes:"Geschirr und Besteck", am_fridge:"Kühlschrank", am_microwave:"Mikrowelle, Toaster und Sandwichmaker",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Schlafsofa", am_books:"Bücher und Brettspiele",
     am_terrace:"Tisch und Stühle im Außenbereich", am_bbq:"Grill auf der Terrasse", am_shade:"Schattenbereich", am_river:"Fluss in der Nähe",
-    am_entry:"Selbst-Check-in (Schlüsselbox)", am_parking:"Kostenloser Parkplatz auf der Straße", am_ac:"Klimaanlage", am_pets_am:"Haustiere erlaubt (Aufpreis)",
+    am_entry:"Selbst-Check-in (Schlüsselbox)", am_parking:"Kostenloser Parkplatz auf der Straße", am_ac:"Klimaanlage", am_pets_am:"Haustiere erlaubt (Aufpreis)", am_pets:"Haustiere erlaubt (Aufpreis)",
     lbl_amenities:"Ausstattung", amenities_title:"Was Sie vorfinden werden",
     lbl_rules:"Buchungsregeln", rules_title:"Wichtige Informationen",
-    rule_min:"<strong>Mindestaufenthalte:</strong> 1 Nacht allgemein · 2 Nächte Fr & Sa · 2 Nächte Feiertags-Brücken · 3 Nächte Juli & August · 3 Nächte Weihnachten",
+    rule_min:"<strong>Mindestaufenthalte:</strong> 1 Nacht allgemein · 2 Nächte Fr & Sa · 2 Nächte Feiertags-Brücken · 3 Nächte Juli & August · 3 Nächte Ostern · 3 Nächte Weihnachten",
     rule_checkin:"<strong>Check-in:</strong> 15 Uhr · <strong>Check-out:</strong> 11 Uhr. Für frühen Check-in oder späten Check-out bitte anfragen — bei Möglichkeit wird eine Extragebühr fällig.",
     rule_keybox:"<strong>Selbst-Check-in</strong> über Schlüsseltresor. Die Vorschriften verlangen einen Lichtbildausweis aller Gäste — nach Buchungsbestätigung nehmen wir Kontakt auf, um ihn anzufordern, und nach Erhalt wird der Geheimcode mitgeteilt.", rule_parking:"Kostenloser Straßenparkplatz direkt vor dem Haus", rule_wifi:"Kostenloses WLAN",
     rule_smoke:"Rauchen im Innenbereich nicht gestattet · Im Außenbereich frei erlaubt (Aschenbecher vorhanden)", rule_pets:"Haustiere erlaubt, mit Reinigungszuschlag", rule_cancel:"Kostenlose Stornierung bis 7 Tage vor Ankunft. Bei höherer Gewalt, kontaktieren Sie uns und wir finden gemeinsam eine Lösung.",
@@ -1400,6 +1405,7 @@ const T = {
     lbl_availability:"Verfügbarkeit", avail_title:"Verfügbare Daten prüfen", avail_free:"Frei", avail_busy:"Belegt", lbl_booking:"Direktbuchung", book_title:"Buchungsanfrage senden",
     book_intro:"Wählen Sie Ihre Daten und Optionen, um den Preis zu sehen. Direktbuchung ohne Plattformgebühren — die Zahlung geht direkt an uns.",
     f_checkin:"Anreise", f_checkout:"Abreise", f_guests:"Erwachsene", f_name:"Vollständiger Name",
+    f_arrival:"Geschätzte Ankunftszeit", arr_sel:"— Auswählen —",
     f_email:"E-Mail-Adresse", f_phone:"Telefon", f_msg:"Nachricht (optional)",
     ps_night:"Preis pro Nacht", ps_nights:"Nächte", ps_total:"Gesamt",
     direct_r1:"Besserer Preis als auf den Plattformen — die Zahlung geht direkt an den Eigentümer, ohne Zwischenhändler.",
@@ -1419,7 +1425,7 @@ const T = {
     faq_q4:"Wie weit ist der Strand?", faq_a4:"Die Strände des Ebro-Deltas befinden sich etwa 15 Minuten mit dem Auto entfernt. Der Fluss und die Flusspromenade sind nur wenige Meter vom Haus entfernt.",
     faq_q5:"Ist Self-Check-in möglich?", faq_a5:"Ja, das Haus verfügt über eine Schlüsselbox für den Self-Check-in. Sie erhalten die Anweisungen per E-Mail vor Ihrer Ankunft.",
     faq_q6:"Gibt es WLAN?", faq_a6:"Ja, kostenloses WLAN ist im Preis inbegriffen.",
-    faq_q7:"Was sind die Mindestaufenthalte?", faq_a7:"1 Nacht allgemein · 2 Nächte Fr & Sa · 2 Nächte Feiertags-Brücken · 3 Nächte Juli & August · 3 Nächte Weihnachten.",
+    faq_q7:"Was sind die Mindestaufenthalte?", faq_a7:"1 Nacht allgemein · 2 Nächte Fr & Sa · 2 Nächte Feiertags-Brücken · 3 Nächte Juli & August · 3 Nächte Ostern · 3 Nächte Weihnachten.",
     faq_q8:"Gibt es Hausregeln, die ich kennen sollte?", faq_a8:"Rauchen im Innenbereich ist nicht gestattet. Kostenlose Stornierung bis 7 Tage vor Ankunft. Touristenlizenz: LLTE-000967.",
     lbl_location:"Wo wir sind", location_title:"Deltebre, Ebro-Delta", location_desc:"Am Ufer des Ebro-Flusses, mitten im Delta. Nur wenige Meter von der Flusspromenade und etwa 15 Minuten von den besten Stränden entfernt.", map_open_cta:"In Google Maps ansehen →",
     lbl_activities:"Das Delta entdecken", activities_title:"Aktivitäten in der Nähe", act7_title:"Bootsfahrt", act7_desc:"Fahren Sie den Ebro bis zur Flussmündung hinunter. Eine einzigartige Fahrt durch Reisfelder, Lagunen und die Tierwelt des Deltas. Abfahrt in Deltebre, nur wenige Minuten vom Haus.", act9_title:"Lokales Angeln", act9_desc:"Traditionelles Fischen am Fluss Ebro, der Lagune Encanyissada und dem Kanal Marquesa. Die Stars: der Delta-Aal und die Meeräsche, beide in der lokalen Küche sehr geschätzt.",
@@ -1443,10 +1449,10 @@ const T = {
     am_coffee:"Caffè", am_dishes:"Stoviglie e posate", am_fridge:"Frigorifero", am_microwave:"Microonde, tostapane e tostiera",
     am_tv:"Smart TV", am_wifi:"WiFi", am_sofa:"Divano letto", am_books:"Libri e giochi da tavolo",
     am_terrace:"Tavolo e sedie all'esterno", am_bbq:"Barbecue in patio", am_shade:"Zona ombreggiata", am_river:"Fiume vicino",
-    am_entry:"Check-in autonomo (cassetta delle chiavi)", am_parking:"Parcheggio gratuito in strada", am_ac:"Aria condizionata", am_pets_am:"Animali ammessi (supplemento)",
+    am_entry:"Check-in autonomo (cassetta delle chiavi)", am_parking:"Parcheggio gratuito in strada", am_ac:"Aria condizionata", am_pets_am:"Animali ammessi (supplemento)", am_pets:"Animali ammessi (supplemento)",
     lbl_amenities:"Servizi", amenities_title:"Cosa troverete in casa",
     lbl_rules:"Regole di prenotazione", rules_title:"Informazioni importanti",
-    rule_min:"<strong>Soggiorni minimi:</strong> 1 notte in generale · 2 notti ven. e sab. · 2 notti ponti festivi · 3 notti luglio e agosto · 3 notti Natale",
+    rule_min:"<strong>Soggiorni minimi:</strong> 1 notte in generale · 2 notti ven. e sab. · 2 notti ponti festivi · 3 notti luglio e agosto · 3 notti Pasqua · 3 notti Natale",
     rule_checkin:"<strong>Check-in:</strong> ore 15 · <strong>Check-out:</strong> ore 11. Per arrivo anticipato o partenza tardiva, chiedete disponibilità — se possibile, si pagherà una tariffa extra.",
     rule_keybox:"<strong>Check-in autonomo</strong> tramite cassetta di sicurezza per le chiavi. La normativa richiede un documento d'identità per tutti gli ospiti — alla conferma della prenotazione vi contatteremo per richiederlo, e una volta ricevuto verrà inviato il codice segreto.", rule_parking:"Parcheggio gratuito in strada davanti alla casa", rule_wifi:"WiFi gratuito",
     rule_smoke:"Vietato fumare all'interno · Fumare liberamente consentito all'esterno (posacenere disponibile)", rule_pets:"Animali ammessi con supplemento per pulizia", rule_cancel:"Cancellazione gratuita fino a 7 giorni prima dell'arrivo. In caso di forza maggiore, contattateci e troveremo una soluzione.",
@@ -1456,6 +1462,7 @@ const T = {
     lbl_availability:"Disponibilità", avail_title:"Controlla le date disponibili", avail_free:"Libero", avail_busy:"Occupato", lbl_booking:"Prenotazione diretta", book_title:"Richiedi il tuo soggiorno",
     book_intro:"Seleziona le tue date e opzioni per vedere il prezzo. Prenotazione diretta senza commissioni — il pagamento va direttamente a noi.",
     f_checkin:"Arrivo", f_checkout:"Partenza", f_guests:"Adulti", f_name:"Nome completo",
+    f_arrival:"Orario di arrivo stimato", arr_sel:"— Seleziona —",
     f_email:"Indirizzo email", f_phone:"Telefono", f_msg:"Messaggio (opzionale)",
     ps_night:"Prezzo per notte", ps_nights:"Notti", ps_total:"Totale",
     direct_r1:"Prezzo migliore che sulle piattaforme — il pagamento va direttamente al proprietario, senza intermediari.",
@@ -1475,7 +1482,7 @@ const T = {
     faq_q4:"Quanto dista la spiaggia?", faq_a4:"Le spiagge del Delta dell'Ebro si trovano a circa 15 minuti in auto. Il fiume e il lungofiume sono a pochi metri dalla casa.",
     faq_q5:"È disponibile il check-in autonomo?", faq_a5:"Sì, la casa dispone di una cassetta delle chiavi per il check-in autonomo. Riceverai le istruzioni via email prima del tuo arrivo.",
     faq_q6:"C'è il WiFi?", faq_a6:"Sì, il WiFi gratuito è incluso nel prezzo.",
-    faq_q7:"Quali sono i soggiorni minimi?", faq_a7:"1 notte in generale · 2 notti ven. e sab. · 2 notti ponti festivi · 3 notti luglio e agosto · 3 notti Natale.",
+    faq_q7:"Quali sono i soggiorni minimi?", faq_a7:"1 notte in generale · 2 notti ven. e sab. · 2 notti ponti festivi · 3 notti luglio e agosto · 3 notti Pasqua · 3 notti Natale.",
     faq_q8:"Ci sono regole della casa da conoscere?", faq_a8:"Non è consentito fumare all'interno. Cancellazione gratuita fino a 7 giorni prima dell'arrivo. Licenza turistica: LLTE-000967.",
     lbl_location:"Dove siamo", location_title:"Deltebre, Delta dell'Ebro", location_desc:"Sulle rive del fiume Ebro, nel cuore del Delta. A pochi metri dal lungofiume e a circa 15 minuti dalle migliori spiagge.", map_open_cta:"Vedi su Google Maps →",
     lbl_activities:"Scopri il Delta", activities_title:"Attività nelle vicinanze", act7_title:"Gita in barca", act7_desc:"Naviga lungo il fiume Ebro fino alla sua foce nel mare. Un percorso unico tra risaie, lagune e fauna del Delta. Imbarco a Deltebre, a pochi minuti dalla casa.", act9_title:"Pesca locale", act9_desc:"Pesca tradizionale sul fiume Ebro, la laguna dell'Encanyissada e il canale della Marquesa. Le specie più pregiate: l'anguilla del Delta e il cefalo, molto apprezzati nella cucina locale.",
@@ -1557,10 +1564,16 @@ function setLang(lang) {
     petsEl.options[1].text = t.pets_1;
     petsEl.options[2].text = t.pets_2;
   }
-  // Update arrival select placeholder
+  // Update arrival label and select placeholder
   const arrivalEl = document.getElementById('arrival');
-  if (arrivalEl && t.f_arrival) {
-    document.querySelector('[data-i18n="f_arrival"]').textContent = t.f_arrival;
+  if (arrivalEl) {
+    if (t.f_arrival) {
+      const lbl = document.querySelector('[data-i18n="f_arrival"]');
+      if (lbl) lbl.textContent = t.f_arrival;
+    }
+    if (t.arr_sel && arrivalEl.options[0] && arrivalEl.options[0].value === '') {
+      arrivalEl.options[0].text = t.arr_sel;
+    }
   }
   // Re-run price update to refresh night/nights label and warn
   updatePrice();
@@ -1645,7 +1658,9 @@ function setLang(lang) {
     if (prevBtn) prevBtn.disabled = pageOffset === 0;
     if (nextBtn) nextBtn.disabled = pageOffset >= 8;
 
+    const maxMonths = 11; // oct 2026 → ago 2027 (11 mesos)
     for (let mi = 0; mi < 4; mi++) {
+      if (pageOffset + mi >= maxMonths) break;
       const d = new Date(today.getFullYear(), today.getMonth() + pageOffset + mi, 1);
       const year = d.getFullYear(), month = d.getMonth();
       const div = document.createElement('div');
@@ -1948,7 +1963,12 @@ function checkMinStay() {
     return (m === 12 && day >= 19) || (m === 1 && day <= 5);
   }
   let minReq = 1, minLabel = '';
+  function inSemanaSanta(dateStr) {
+    const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
+    return m === 3 && day >= 19 && day <= 28;
+  }
   if (inXmasWindow(ci) || inXmasWindow(co)) { minReq = 3; minLabel = 'Navidades (19 dic–5 ene)'; }
+  else if (inSemanaSanta(ci) || inSemanaSanta(co)) { minReq = 3; minLabel = 'Semana Santa (19–28 mar)'; }
   else if ((ciMonth === 12 && ciDate.getDate() >= 4 && ciDate.getDate() <= 8) || (new Date(co).getMonth()===11 && new Date(co).getDate()>=4 && new Date(co).getDate()<=8)) { minReq = 3; minLabel = '4–8 dic'; }
   else if (ciMonth === 7 || ciMonth === 8) { minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto'; }
   else if (ciMonth === 6) { minReq = 2; minLabel = 'junio'; }
@@ -2020,8 +2040,14 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
     return m === 12 && day >= 4 && day <= 8;
   }
+  function inSemanaSanta2(dateStr) {
+    const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
+    return m === 3 && day >= 19 && day <= 28;
+  }
   if (inXmasWindow(ci) || inXmasWindow(co)) {
     minReq = 3; minLabel = 'Navidades (19 dic–5 ene)';
+  } else if (inSemanaSanta2(ci) || inSemanaSanta2(co)) {
+    minReq = 3; minLabel = 'Semana Santa (19–28 mar)';
   } else if (inDecWindow(ci) || inDecWindow(co)) {
     minReq = 3; minLabel = '4–8 dic';
   } else if (ciMonth === 7 || ciMonth === 8) {
