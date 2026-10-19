@@ -401,12 +401,12 @@ p { color: var(--fg2); margin: 0 0 16px; }
 .avail-section { background: var(--bg); padding: 3rem 0 2rem; border-top: 1px solid var(--border); }
 .avail-section .section-label { color: var(--accent); font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
 .avail-section h2 { font-size:1.4rem; font-weight:700; margin-bottom:1.5rem; }
-.avail-calendar { overflow-x:auto; padding-bottom:.5rem; }
+.avail-calendar { padding-bottom:.5rem; }
 .avail-loading { color:var(--fg2); font-style:italic; }
 #calGrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+.cal-month { min-width:0; width:100%; }
 @media (max-width:700px) { #calGrid { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:440px) { #calGrid { grid-template-columns:1fr; } }
-.cal-month { min-width:0; }
 .cal-month h4 { font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; color:var(--accent); }
 .cal-days { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; font-size:.72rem; }
 .cal-day-label { text-align:center; font-weight:700; color:var(--fg2); padding:2px 0; }
@@ -1648,7 +1648,6 @@ function setLang(lang) {
       div.appendChild(daysDiv);
       grid.appendChild(div);
     }
-    grid.style.display = 'flex';
     document.getElementById('availLoading').style.display = 'none';
   }
 
