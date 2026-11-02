@@ -874,6 +874,7 @@ footer a:hover { color: #fff; }
 
         <button type="submit" class="btn-book" id="btnBook" data-i18n="btn_send">Pagar con Stripe 🔒</button>
         <div class="stripe-note">🔒 <span data-i18n="stripe_note">El pago se realizará de forma segura vía</span> <strong>Stripe</strong></div>
+        <div class="cancel-note" data-i18n="cancel_note">✅ Cancelación gratuita hasta 7 días antes de la llegada</div>
       </form>
 
       <div class="success-msg" id="successMsg" data-i18n-html="success_msg">
@@ -1774,34 +1775,34 @@ function getPricePerNight(date) {
   if (m === 8) return 126;
   if (m === 7) return 124;
   // June: estiu
-  if (m === 6) return 98;
+  if (m === 6) return 99;
   // December festius / Nadal
   if (m === 12) {
     if (d >= 24 && d <= 27) return 99;
     if (d === 31) return 109;
     if (d >= 19 && d <= 21) return 96;
     if ([1,4,5,6,7,8].includes(d)) return 104;
-    return 75;
+    return 79;
   }
   // January
-  if (m === 1) return 75;
+  if (m === 1) return 79;
   // February
-  if (m === 2) return 75;
+  if (m === 2) return 79;
   // March
   if (m === 3) {
     if (d >= 19) return 102;
-    return 75;
+    return 79;
   }
   // April
   if (m === 4) {
     if (d === 30) return 86;
-    return 75;
+    return 79;
   }
   // May
   if (m === 5) {
     if (d === 1) return 95;
     if (d === 2) return 86;
-    return 75;
+    return 79;
   }
   // October/November
   if (m === 10) {
@@ -1813,10 +1814,10 @@ function getPricePerNight(date) {
     return 69;
   }
   if (m === 11) {
-    if (day === 5 || day === 6 || day === 0) return 71;
-    return 68;
+    if (day === 5 || day === 6 || day === 0) return 76;
+    return 71;
   }
-  return 75;
+  return 79;
 }
 
 function getMinNights(checkin) {
