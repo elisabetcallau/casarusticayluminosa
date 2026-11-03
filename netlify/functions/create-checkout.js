@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { nights, checkIn, checkOut, guests, total } = JSON.parse(event.body);
+    const { nights, checkIn, checkOut, guests, total, arrival, pets, msg, children, babies } = JSON.parse(event.body);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -26,6 +26,17 @@ exports.handler = async (event) => {
       cancel_url: `${event.headers.origin || 'https://casarusticayluminosa.netlify.app'}/#reserva`,
       payment_intent_data: {
         description: `Reserva Casa Rústica y Luminosa: ${checkIn} → ${checkOut}`,
+        metadata: {
+          check_in: checkIn,
+          check_out: checkOut,
+          nights: String(nights),
+          adults: String(guests),
+          children: String(children || 0),
+          babies: String(babies || 0),
+          arrival_time: arrival || '',
+          pets: pets || 'Sin mascotas',
+          message: msg || '',
+        },
       },
     });
 
