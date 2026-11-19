@@ -485,7 +485,7 @@ p { color: var(--fg2); margin: 0 0 16px; }
 .map-pin-label { background:rgba(255,255,255,.9); color:#2a2318; font-weight:600; font-size:.85rem; padding:.25rem .65rem; border-radius:20px; margin-top:.4rem; box-shadow:0 1px 6px rgba(0,0,0,.15); z-index:2; }
 .map-link-cta { position:absolute; bottom:0; left:0; right:0; background:var(--accent); color:#fff; text-align:center; padding:.6rem 1rem; font-weight:600; font-size:.9rem; letter-spacing:.02em; }
 .activities-section { padding: 2.5rem 0; border-top: 1px solid var(--border); }
-.act-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.act-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; align-items: start; margin-top: 1rem; }
 .act-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; }
 .act-icon { font-size: 1.6rem; margin-bottom: .4rem; }
 .act-title { font-weight: 700; font-size: .92rem; margin-bottom: .2rem; }
@@ -1780,7 +1780,10 @@ function getPricePerNight(date) {
   if (m === 8) return 126;
   if (m === 7) return 124;
   // June: estiu
-  if (m === 6) return 99;
+  if (m === 6) {
+    if (d === 23) return 92;
+    return (day === 0 || day === 5 || day === 6) ? 90 : 88;
+  }
   // December festius / Nadal
   if (m === 12) {
     if (d >= 24 && d <= 27) return 99;
@@ -1868,9 +1871,15 @@ function updatePrice() {
   const nights = Math.round((d2 - d1) / 86400000);
   if (nights <= 0) { summary.classList.remove('visible'); return; }
 
-  const pricePerNight = getPricePerNight(d1);
+  // Price each night by its own date
+  let total = 0, minP = Infinity, maxP = 0;
+  for (let i = 0; i < nights; i++) {
+    const nd = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate() + i);
+    const p = getPricePerNight(nd);
+    total += p; minP = Math.min(minP, p); maxP = Math.max(maxP, p);
+  }
+  const pricePerNight = minP === maxP ? minP : minP + '–' + maxP;
   const minN = getMinNights(d1);
-  const total = pricePerNight * nights;
 
   const t = T[currentLang];
   psNightPrice.textContent = pricePerNight + '€';
