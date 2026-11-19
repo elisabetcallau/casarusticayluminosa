@@ -1777,8 +1777,8 @@ function getPricePerNight(date) {
   const day = date.getDay(); // 0=sun,6=sat
 
   // August / July: alta
-  if (m === 8) return 126;
-  if (m === 7) return 124;
+  if (m === 8) return 118;
+  if (m === 7) return 115;
   // June: estiu
   if (m === 6) {
     if (d === 23) return 92;
@@ -1786,19 +1786,23 @@ function getPricePerNight(date) {
   }
   // December festius / Nadal
   if (m === 12) {
-    if (d >= 24 && d <= 27) return 99;
+    if (d >= 18 && d <= 22) return 71;
+    if (d === 24 || d === 25) return 83;
     if (d === 31) return 109;
-    if (d >= 19 && d <= 21) return 96;
-    if ([1,4,5,6,7,8].includes(d)) return 104;
+    if (d >= 23 && d <= 30) return 79;
+    if ([4,6,7].includes(d)) return 78;
+    if ([5,8].includes(d)) return 84;
+    if (d === 1) return 104;
     return 79;
   }
   // January
-  if (m === 1) return 79;
+  if (m === 1) return (d >= 3 && d <= 6) ? 75 : 79;
   // February
   if (m === 2) return 79;
   // March
   if (m === 3) {
-    if (d >= 19) return 102;
+    if (d >= 19 && d <= 28) return 93;
+    if (d >= 29) return 102;
     return 79;
   }
   // April
@@ -1808,7 +1812,7 @@ function getPricePerNight(date) {
   }
   // May
   if (m === 5) {
-    if (d === 1) return 95;
+    if (d === 1) return 93;
     if (d === 2) return 86;
     return 79;
   }
@@ -1837,10 +1841,14 @@ function getMinNights(checkin) {
   // Juny: 2
   if (m === 6) return 2;
   // Nadal (24 des - 1 gen): 3
-  if (m === 12 && d >= 24) return 3;
-  if (m === 1 && d <= 1) return 3;
+  if (m === 12 && d >= 23) return 3;
+  if (m === 12 && d >= 18 && d <= 22) return 2;
+  // Semana Santa (19-28 mar): 3
+  if (m === 3 && d >= 19 && d <= 28) return 3;
+  if (m === 1 && d <= 2) return 3;
+  if (m === 1 && d >= 3 && d <= 6) return 2;
   // Ponts (Puríssima 8 des, festius): 2
-  if (m === 12 && [5,6,7,8].includes(d)) return 2;
+  if (m === 12 && d >= 3 && d <= 8) return 2;
   if (m === 4 && d >= 28) return 2;
   // Divendres/dissabte: 2
   if (day === 5 || day === 6) return 2;
@@ -1975,16 +1983,26 @@ function checkMinStay() {
   const coDay = new Date(co).getDay();
   function inXmasWindow(dateStr) {
     const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
-    return (m === 12 && day >= 19) || (m === 1 && day <= 5);
+    return (m === 12 && day >= 23) || (m === 1 && day <= 2);
+  }
+  function inXmasWindowCo(dateStr) {
+    const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
+    return (m === 12 && day >= 24) || (m === 1 && day <= 3);
+  }
+  function inPreXmas(dateStr, isCo) {
+    const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
+    if (m === 1) return isCo ? (day >= 4 && day <= 7) : (day >= 3 && day <= 6);
+    return m === 12 && (isCo ? (day >= 19 && day <= 23) : (day >= 18 && day <= 22));
   }
   let minReq = 1, minLabel = '';
   function inSemanaSanta(dateStr) {
     const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
     return m === 3 && day >= 19 && day <= 28;
   }
-  if (inXmasWindow(ci) || inXmasWindow(co)) { minReq = 3; minLabel = 'Navidades (19 dic–5 ene)'; }
+  if (inXmasWindow(ci) || inXmasWindowCo(co)) { minReq = 3; minLabel = 'Navidades (23 dic–5 ene)'; }
+  else if (inPreXmas(ci, false) || inPreXmas(co, true)) { minReq = 2; minLabel = '18–22 dic / 3–6 ene'; }
   else if (inSemanaSanta(ci) || inSemanaSanta(co)) { minReq = 3; minLabel = 'Semana Santa (19–28 mar)'; }
-  else if ((ciMonth === 12 && ciDate.getDate() >= 4 && ciDate.getDate() <= 8) || (new Date(co).getMonth()===11 && new Date(co).getDate()>=4 && new Date(co).getDate()<=8)) { minReq = 3; minLabel = '4–8 dic'; }
+  else if ((ciMonth === 12 && ciDate.getDate() >= 3 && ciDate.getDate() <= 8) || (new Date(co).getMonth()===11 && new Date(co).getDate()>=4 && new Date(co).getDate()<=9)) { minReq = 2; minLabel = '3–8 dic'; }
   else if (ciMonth === 7 || ciMonth === 8) { minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto'; }
   else if (ciMonth === 6) { minReq = 2; minLabel = 'junio'; }
   else if (ciDay === 5 || ciDay === 6 || coDay === 6 || coDay === 0) { minReq = 2; minLabel = 'viernes/sábado'; }
@@ -2047,24 +2065,41 @@ document.getElementById('bookingForm').addEventListener('submit', async function
   function inXmasWindow(dateStr) {
     const d = new Date(dateStr);
     const m = d.getMonth() + 1, day = d.getDate();
-    return (m === 12 && day >= 19) || (m === 1 && day <= 5);
+    return (m === 12 && day >= 23) || (m === 1 && day <= 2);
+  }
+  function inXmasWindowCo(dateStr) {
+    const d = new Date(dateStr);
+    const m = d.getMonth() + 1, day = d.getDate();
+    return (m === 12 && day >= 24) || (m === 1 && day <= 3);
+  }
+  function inPreXmas(dateStr, isCo) {
+    const d = new Date(dateStr);
+    const m = d.getMonth() + 1, day = d.getDate();
+    if (m === 1) return isCo ? (day >= 4 && day <= 7) : (day >= 3 && day <= 6);
+    return m === 12 && (isCo ? (day >= 19 && day <= 23) : (day >= 18 && day <= 22));
   }
   let minReq = 1;
   let minLabel = '';
   function inDecWindow(dateStr) {
     const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
-    return m === 12 && day >= 4 && day <= 8;
+    return m === 12 && day >= 3 && day <= 8;
+  }
+  function inDecWindowCo(dateStr) {
+    const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
+    return m === 12 && day >= 4 && day <= 9;
   }
   function inSemanaSanta2(dateStr) {
     const d = new Date(dateStr); const m = d.getMonth() + 1, day = d.getDate();
     return m === 3 && day >= 19 && day <= 28;
   }
-  if (inXmasWindow(ci) || inXmasWindow(co)) {
-    minReq = 3; minLabel = 'Navidades (19 dic–5 ene)';
+  if (inXmasWindow(ci) || inXmasWindowCo(co)) {
+    minReq = 3; minLabel = 'Navidades (23 dic–5 ene)';
+  } else if (inPreXmas(ci, false) || inPreXmas(co, true)) {
+    minReq = 2; minLabel = '18–22 dic / 3–6 ene';
   } else if (inSemanaSanta2(ci) || inSemanaSanta2(co)) {
     minReq = 3; minLabel = 'Semana Santa (19–28 mar)';
-  } else if (inDecWindow(ci) || inDecWindow(co)) {
-    minReq = 3; minLabel = '4–8 dic';
+  } else if (inDecWindow(ci) || inDecWindowCo(co)) {
+    minReq = 2; minLabel = '3–8 dic';
   } else if (ciMonth === 7 || ciMonth === 8) {
     minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto';
   } else if (ciMonth === 6) {
