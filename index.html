@@ -1792,7 +1792,6 @@ function getPricePerNight(date) {
     if (d >= 23 && d <= 30) return 79;
     if ([4,6,7].includes(d)) return 78;
     if ([5,8].includes(d)) return 84;
-    if (d === 1) return 104;
     return 79;
   }
   // January
