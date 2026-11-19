@@ -46,6 +46,7 @@ function parseIcal(icalText) {
 
 exports.handler = async () => {
   const FEEDS = [
+    'https://calendar.google.com/calendar/ical/casarusticayluminosa%40gmail.com/private-dd523a3e3b3f443123bbb8f6f1dbb6b3/basic.ics', // Reserves web (Google Calendar)
     'https://www.airbnb.es/calendar/ical/969324715237583598.ics?t=5c48c4ea9b064360bb23d1ae25f9611e',
     'https://www.vrbo.com/icalendar/e4c9d860e3bc4c24be0bdf051381b537.ics?nonTentative',
     'https://ical.booking.com/v1/export?t=0b2ae70a-9fc9-4a06-841a-2576f31eaf68'
