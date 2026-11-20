@@ -1506,6 +1506,7 @@ let currentLang = 'es';
 
 function setLang(lang) {
   currentLang = lang;
+  try { localStorage.setItem('casaLang', lang); } catch(e) {}
   const t = T[lang];
   // Update active button
   document.querySelectorAll('.lang-btn').forEach(b => {
@@ -1621,7 +1622,6 @@ function setLang(lang) {
         }
       }
     }
-    busy.delete('2026-11-20'); // PROVA
     return busy;
   }
 
@@ -1725,7 +1725,6 @@ function setLang(lang) {
       const loadingEl = document.getElementById('availLoading');
       if (loadingEl) loadingEl.textContent = '';
     }
-    allBusy.delete('2026-11-20'); // PROVA
     renderCalendar(allBusy);
   }
 
@@ -1746,7 +1745,6 @@ function setLang(lang) {
         if (data.occupied) data.occupied.forEach(d => allBusy.add(d));
       }
     } catch(e) {}
-    allBusy.delete('2026-11-20'); // PROVA
     window._calBusyDates = allBusy;
     renderCalendar(allBusy);
   };
@@ -1778,7 +1776,6 @@ function getPricePerNight(date) {
   const m = date.getMonth() + 1; // 1-12
   const d = date.getDate();
   const day = date.getDay(); // 0=sun,6=sat
-  if (date.getFullYear()===2026 && m===11 && d===20) return 0.5; // PROVA
 
   // August / July: alta
   if (m === 8) return 118;
@@ -1839,7 +1836,6 @@ function getMinNights(checkin) {
   const m = checkin.getMonth() + 1;
   const d = checkin.getDate();
   const day = checkin.getDay();
-  if (checkin.getFullYear()===2026 && m===11 && d===20) return 1; // PROVA
   // Agost: 3
   if (m === 8 || m === 7) return 3;
   // Juny: 2
@@ -2010,7 +2006,6 @@ function checkMinStay() {
   else if (ciMonth === 7 || ciMonth === 8) { minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto'; }
   else if (ciMonth === 6) { minReq = 2; minLabel = 'junio'; }
   else if (ciDay === 5 || ciDay === 6 || coDay === 6 || coDay === 0) { minReq = 2; minLabel = 'viernes/sábado'; }
-  if (ci === '2026-11-20') minReq = 1; // PROVA
   if (nights > 0 && nights < minReq) {
     if (msgEl) msgEl.textContent = (T[currentLang]?.warn_min || '⚠️ Mínimo {n} noches para estas fechas ({period}).').replace('{n}', minReq).replace('{period}', minLabel);
     warnEl.hidden = false;
@@ -2054,7 +2049,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
   const ci = checkinEl.value, co = checkoutEl.value;
   const guestsVal2 = parseInt(document.getElementById('guests')?.value || 2);
   const total = psTotal.textContent;
-  const totalNum = parseFloat(total) || 0;
+  const totalNum = parseInt(total) || 0;
 
   if (!totalNum) { alert('Por favor selecciona las fechas primero.'); return; }
   if (hasOverlapWithBusy(ci, co)) { alert(T[currentLang].warn_occupied || 'Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.'); btn.disabled = false; return; }
@@ -2113,7 +2108,6 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     // Check-in Friday or Saturday, or checkout Saturday or Sunday
     minReq = 2; minLabel = 'viernes/sábado';
   }
-  if (ci === '2026-11-20') minReq = 1; // PROVA
   if (nights < minReq) {
     const msg = (T[currentLang].warn_min || '⚠️ Para estas fechas el mínimo es {n} noches ({period}).').replace('{n}', minReq).replace('{period}', minLabel);
     alert(msg);
