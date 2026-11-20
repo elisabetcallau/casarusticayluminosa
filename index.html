@@ -2054,7 +2054,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
   const ci = checkinEl.value, co = checkoutEl.value;
   const guestsVal2 = parseInt(document.getElementById('guests')?.value || 2);
   const total = psTotal.textContent;
-  const totalNum = parseInt(total) || 0;
+  const totalNum = parseFloat(total) || 0;
 
   if (!totalNum) { alert('Por favor selecciona las fechas primero.'); return; }
   if (hasOverlapWithBusy(ci, co)) { alert(T[currentLang].warn_occupied || 'Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.'); btn.disabled = false; return; }
