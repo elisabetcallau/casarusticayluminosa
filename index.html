@@ -1839,6 +1839,7 @@ function getMinNights(checkin) {
   const m = checkin.getMonth() + 1;
   const d = checkin.getDate();
   const day = checkin.getDay();
+  if (checkin.getFullYear()===2026 && m===11 && d===20) return 1; // PROVA
   // Agost: 3
   if (m === 8 || m === 7) return 3;
   // Juny: 2
