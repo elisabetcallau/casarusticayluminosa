@@ -1771,8 +1771,15 @@ function goTo(i) {
 }
 setInterval(() => goTo((current + 1) % imgs.length), 4000);
 
+// Preus i mínims del full de Google Sheets "Preus Casa Rústica (web)".
+// Si el full no es carrega, es fan servir els preus de seguretat de sota.
+window._sheet = null;
+function _ymd(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function _sheetDay(d) { return window._sheet ? window._sheet[_ymd(d)] : null; }
+
 // Price table by season (approximate from calendar)
 function getPricePerNight(date) {
+  const _s = _sheetDay(date); if (_s && _s.p) return _s.p;
   const m = date.getMonth() + 1; // 1-12
   const d = date.getDate();
   const day = date.getDay(); // 0=sun,6=sat
@@ -1833,6 +1840,7 @@ function getPricePerNight(date) {
 }
 
 function getMinNights(checkin) {
+  const _s = _sheetDay(checkin); if (_s && _s.m) return _s.m;
   const m = checkin.getMonth() + 1;
   const d = checkin.getDate();
   const day = checkin.getDay();
@@ -1854,6 +1862,27 @@ function getMinNights(checkin) {
   if (day === 5 || day === 6) return 2;
   return 1;
 }
+
+// Mínim de nits d'una estada: el més alt de totes les nits de l'estada
+function sheetMinStay(ci, co) {
+  const a = ci.split('-'), b = co.split('-');
+  const d1 = new Date(+a[0], +a[1]-1, +a[2]), d2 = new Date(+b[0], +b[1]-1, +b[2]);
+  let req = 1;
+  for (let d = new Date(d1); d < d2; d.setDate(d.getDate()+1)) req = Math.max(req, getMinNights(d));
+  return req;
+}
+function stayLabel(ci, co) { const f = s => s.slice(8,10)+'/'+s.slice(5,7); return f(ci)+'–'+f(co); }
+
+(async function loadSheetPrices() {
+  try {
+    const r = await fetch('/.netlify/functions/get-prices', { signal: AbortSignal.timeout(8000) });
+    const data = await r.json();
+    if (data && data.ok && data.days && Object.keys(data.days).length) {
+      window._sheet = data.days;
+      if (checkinEl.value && checkoutEl.value) { checkMinStay(); updatePrice(); }
+    }
+  } catch (e) {}
+})();
 
 const checkinEl = document.getElementById('checkin');
 const checkoutEl = document.getElementById('checkout');
@@ -1886,8 +1915,9 @@ function updatePrice() {
     const p = getPricePerNight(nd);
     total += p; minP = Math.min(minP, p); maxP = Math.max(maxP, p);
   }
+  total = Math.round(total * 100) / 100;
   const pricePerNight = minP === maxP ? minP : minP + '–' + maxP;
-  const minN = getMinNights(d1);
+  const minN = window._sheet ? sheetMinStay(ci, co) : getMinNights(d1);
 
   const t = T[currentLang];
   psNightPrice.textContent = pricePerNight + '€';
@@ -1930,7 +1960,7 @@ function updatePrice() {
     if (psPetsRow) psPetsRow.style.display = 'none';
   }
 
-  const grandTotal = total + extraAdultFee + childrenFee + petsFee;
+  const grandTotal = Math.round((total + extraAdultFee + childrenFee + petsFee) * 100) / 100;
   psTotal.textContent = grandTotal + '€';
 
   if (nights < minN) {
@@ -2006,6 +2036,7 @@ function checkMinStay() {
   else if (ciMonth === 7 || ciMonth === 8) { minReq = 3; minLabel = ciMonth === 7 ? 'julio' : 'agosto'; }
   else if (ciMonth === 6) { minReq = 2; minLabel = 'junio'; }
   else if (ciDay === 5 || ciDay === 6 || coDay === 6 || coDay === 0) { minReq = 2; minLabel = 'viernes/sábado'; }
+  if (window._sheet) { minReq = sheetMinStay(ci, co); minLabel = stayLabel(ci, co); }
   if (nights > 0 && nights < minReq) {
     if (msgEl) msgEl.textContent = (T[currentLang]?.warn_min || '⚠️ Mínimo {n} noches para estas fechas ({period}).').replace('{n}', minReq).replace('{period}', minLabel);
     warnEl.hidden = false;
@@ -2049,7 +2080,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
   const ci = checkinEl.value, co = checkoutEl.value;
   const guestsVal2 = parseInt(document.getElementById('guests')?.value || 2);
   const total = psTotal.textContent;
-  const totalNum = parseInt(total) || 0;
+  const totalNum = parseFloat(total) || 0;
 
   if (!totalNum) { alert('Por favor selecciona las fechas primero.'); return; }
   if (hasOverlapWithBusy(ci, co)) { alert(T[currentLang].warn_occupied || 'Aquestes dates ja estan reservades. Si us plau, tria unes altres dates.'); btn.disabled = false; return; }
@@ -2108,6 +2139,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     // Check-in Friday or Saturday, or checkout Saturday or Sunday
     minReq = 2; minLabel = 'viernes/sábado';
   }
+  if (window._sheet) { minReq = sheetMinStay(ci, co); minLabel = stayLabel(ci, co); }
   if (nights < minReq) {
     const msg = (T[currentLang].warn_min || '⚠️ Para estas fechas el mínimo es {n} noches ({period}).').replace('{n}', minReq).replace('{period}', minLabel);
     alert(msg);
