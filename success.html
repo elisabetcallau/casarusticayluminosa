@@ -5,22 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reserva confirmada</title>
 <style>
-  body { font-family: Georgia, serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #f5f0eb; }
-  .box { text-align: center; padding: 3rem 2rem; background: white; border-radius: 12px; max-width: 480px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  body { font-family: Georgia, serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 1rem; box-sizing: border-box; background: #f5f0eb; }
+  .box { text-align: center; padding: 2.5rem 2rem; background: white; border-radius: 12px; max-width: 520px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
   .check { font-size: 4rem; margin-bottom: 1rem; }
-  h1 { color: #5c4a2a; font-size: 1.8rem; margin-bottom: 1rem; }
+  h1 { color: #5c4a2a; font-size: 1.8rem; margin: 0 0 1rem; }
   p { color: #666; line-height: 1.6; }
-  a { display: inline-block; margin-top: 2rem; color: #5c4a2a; text-decoration: none; border: 1px solid #5c4a2a; padding: 0.75rem 1.5rem; border-radius: 6px; }
-  a:hover { background: #5c4a2a; color: white; }
+  .notice { margin: 1.5rem 0; padding: 1rem 1.2rem; background: #fbf1dc; border: 1px solid #e3c98a; border-radius: 8px; text-align: left; color: #5c4a2a; }
+  .notice strong { display: block; margin-bottom: .4rem; }
+  .notice span { color: #6b5a3a; line-height: 1.6; }
+  a.back { display: inline-block; margin-top: 1.2rem; color: #5c4a2a; text-decoration: none; border: 1px solid #5c4a2a; padding: 0.75rem 1.5rem; border-radius: 6px; }
+  a.back:hover { background: #5c4a2a; color: white; }
+  .langs { margin-bottom: 1.2rem; display: flex; gap: .4rem; justify-content: center; flex-wrap: wrap; }
+  .langs button { font-family: inherit; font-size: .8rem; padding: .3rem .6rem; border: 1px solid #d9cdb8; background: #fff; color: #5c4a2a; border-radius: 6px; cursor: pointer; }
+  .langs button.on { background: #5c4a2a; color: #fff; border-color: #5c4a2a; }
 </style>
 </head>
 <body>
 <div class="box">
+  <div class="langs" id="langs"></div>
   <div class="check">✓</div>
-  <h1>¡Reserva confirmada!</h1>
-  <p>Hemos recibido tu pago. Te enviaremos un email de confirmación con todos los detalles de tu estancia.</p>
-  <p>¡Nos vemos en el Delta! 🌿</p>
-  <a href="/">← Volver a la web</a>
+  <h1 id="h"></h1>
+  <p id="p1"></p>
+  <div class="notice"><strong id="nt"></strong><span id="nb"></span></div>
+  <p id="p2"></p>
+  <a class="back" id="back" href="/"></a>
 </div>
+<script>
+var L = {
+  es: { h:'¡Reserva confirmada!', p1:'Hemos recibido tu pago. Te enviaremos un email de confirmación con todos los detalles de tu estancia.', nt:'⚠️ Importante: revisa tu correo electrónico.', nb:'En el email que recibirás te pediremos los datos de todos los huéspedes. Los necesitamos para poder registrar correctamente tu reserva, tal y como exige el Real Decreto 933/2021. Si no lo ves en unos minutos, mira también la carpeta de spam.', p2:'¡Nos vemos en el Delta! 🌿', back:'← Volver a la web' },
+  ca: { h:'Reserva confirmada!', p1:'Hem rebut el teu pagament. T\'enviarem un correu de confirmació amb tots els detalls de la teva estada.', nt:'⚠️ Important: revisa el teu correu electrònic.', nb:'Al correu que rebràs et demanarem les dades de tots els hostes. Les necessitem per poder registrar correctament la teva reserva, tal com exigeix el Reial Decret 933/2021. Si no el veus en uns minuts, mira també la carpeta de correu brossa.', p2:'Ens veiem al Delta! 🌿', back:'← Tornar a la web' },
+  en: { h:'Booking confirmed!', p1:'We have received your payment. We will send you a confirmation email with all the details of your stay.', nt:'⚠️ Important: please check your email.', nb:'In the email you will receive, we will ask for the details of all guests. We need them to register your booking correctly, as required by Spanish Royal Decree 933/2021. If you don\'t see it within a few minutes, please check your spam folder too.', p2:'See you in the Delta! 🌿', back:'← Back to the website' },
+  fr: { h:'Réservation confirmée !', p1:'Nous avons bien reçu votre paiement. Nous vous enverrons un e-mail de confirmation avec tous les détails de votre séjour.', nt:'⚠️ Important : vérifiez votre boîte mail.', nb:'Dans l\'e-mail que vous recevrez, nous vous demanderons les données de tous les voyageurs. Nous en avons besoin pour enregistrer correctement votre réservation, conformément au Real Decreto 933/2021 (réglementation espagnole). Si vous ne le voyez pas au bout de quelques minutes, regardez aussi dans vos courriers indésirables.', p2:'À bientôt dans le Delta ! 🌿', back:'← Retour au site' },
+  de: { h:'Buchung bestätigt!', p1:'Wir haben Ihre Zahlung erhalten. Wir senden Ihnen eine Bestätigungs-E-Mail mit allen Details zu Ihrem Aufenthalt.', nt:'⚠️ Wichtig: Bitte prüfen Sie Ihr E-Mail-Postfach.', nb:'In der E-Mail, die Sie erhalten, bitten wir um die Daten aller Gäste. Wir benötigen sie, um Ihre Buchung ordnungsgemäß zu registrieren, wie es das spanische Königliche Dekret 933/2021 verlangt. Falls Sie die E-Mail nach einigen Minuten nicht sehen, schauen Sie bitte auch in Ihrem Spam-Ordner nach.', p2:'Wir sehen uns im Delta! 🌿', back:'← Zurück zur Website' },
+  it: { h:'Prenotazione confermata!', p1:'Abbiamo ricevuto il tuo pagamento. Ti invieremo un\'e-mail di conferma con tutti i dettagli del tuo soggiorno.', nt:'⚠️ Importante: controlla la tua e-mail.', nb:'Nell\'e-mail che riceverai ti chiederemo i dati di tutti gli ospiti. Ci servono per registrare correttamente la tua prenotazione, come richiesto dal Real Decreto 933/2021 (normativa spagnola). Se non la vedi entro pochi minuti, controlla anche la cartella spam.', p2:'Ci vediamo nel Delta! 🌿', back:'← Torna al sito' }
+};
+function pick() {
+  var l = null;
+  try { l = localStorage.getItem('casaLang'); } catch (e) {}
+  if (!l || !L[l]) {
+    l = ((navigator.language || 'es').slice(0, 2)).toLowerCase();
+    if (!L[l]) l = 'es';
+  }
+  return l;
+}
+function show(l) {
+  var t = L[l];
+  document.documentElement.lang = l;
+  ['h','p1','nt','nb','p2','back'].forEach(function (k) { document.getElementById(k).textContent = t[k]; });
+  document.title = t.h.replace('!', '');
+  Array.prototype.forEach.call(document.querySelectorAll('#langs button'), function (b) { b.classList.toggle('on', b.dataset.l === l); });
+}
+var box = document.getElementById('langs');
+Object.keys(L).forEach(function (k) {
+  var b = document.createElement('button');
+  b.textContent = k.toUpperCase(); b.dataset.l = k;
+  b.onclick = function () { show(k); };
+  box.appendChild(b);
+});
+show(pick());
+</script>
 </body>
 </html>
