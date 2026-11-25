@@ -17,6 +17,46 @@ function fetchUrl(url) {
   });
 }
 
+
+// --- Dies tancats des del full de Google Sheets ---
+// Columna F (Estat): desplegable Obert / Tancat. Els dies amb "Tancat" es bloquegen a la web.
+const SHEET_ID = '1Nd7AS74LbVfe0BtRjdRwrf1154seV5VgIgP_uILif7c';
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&headers=1`;
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function toYMD(cell) {
+  if (!cell) return null;
+  const v = cell.v;
+  if (typeof v === 'string') {
+    let m = v.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})/);
+    if (m) return `${m[1]}-${pad(+m[2] + 1)}-${pad(+m[3])}`;
+    m = v.trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) return `${m[1]}-${pad(+m[2])}-${pad(+m[3])}`;
+    m = v.trim().match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+    if (m) return `${m[3]}-${pad(+m[2])}-${pad(+m[1])}`;
+  }
+  if (cell.f && typeof cell.f === 'string' && cell.f !== v) return toYMD({ v: cell.f });
+  return null;
+}
+
+function isClosedNote(cell) {
+  if (!cell || cell.v === null || cell.v === undefined) return false;
+  return /^\s*(tancat|tancada|cerrad[oa]|closed)\b/i.test(String(cell.v));
+}
+
+function parseClosedDays(text) {
+  const json = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1));
+  if (json.status !== 'ok' || !json.table) throw new Error('sheet status ' + json.status);
+  const out = [];
+  for (const row of json.table.rows || []) {
+    const c = row.c || [];
+    const ymd = toYMD(c[0]);
+    if (ymd && isClosedNote(c[5])) out.push(ymd);
+  }
+  return out;
+}
+
 function parseIcal(icalText) {
   const dates = [];
   const lines = icalText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
@@ -62,11 +102,19 @@ exports.handler = async () => {
     }
   }));
 
+  // Dies tancats manualment al full de preus (si falla, es continua sense ells)
+  try {
+    const sheetText = await fetchUrl(SHEET_URL);
+    parseClosedDays(sheetText).forEach(d => occupied.add(d));
+  } catch (e) {
+    console.error('Sheet error:', e.message);
+  }
+
   return {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=3600',
+      'Cache-Control': 'public, max-age=300',
       'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify({ occupied: Array.from(occupied).sort() })
